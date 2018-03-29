@@ -1,4 +1,4 @@
-example of rule:
+**example of rule**
 ```
 let rule_expr = {
   trigger: {
@@ -28,6 +28,7 @@ let rule_expr = {
   ]
 };
 ```
+**Output**
 
 ```
 switch created
