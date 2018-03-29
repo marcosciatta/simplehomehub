@@ -21,7 +21,7 @@ class baseDevice {
     var self = this;
     this.machine.observe({
       onTransition: function(lifecycle){
-        self.postal.publish({channel:'device',topic: 'change-state-event', data: { device: self.identity, event: lifecycle}});
+        self.postal.publish({channel:'device',topic: 'change-state-event', data: { device_identity: self.identity,state: lifecycle.to, event: lifecycle}});
       }
     });
   }
