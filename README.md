@@ -1,3 +1,34 @@
+example of rule:
+```
+let rule_expr = {
+  trigger: {
+    type: 'event',
+    name: 'change-state-event',
+    with: {
+      device_identity: 'switch1',
+      state: 'off'
+    }
+  },
+  result:[ {
+    type: 'event',
+    name: 'change-state-to-event',
+    with: {
+      device_identity: 'switch2',
+      state: 'off'
+    }
+  },
+  {
+    type: 'event',
+    name: 'change-state-to-event',
+    with: {
+      device_identity: 'light1',
+      state: 'off'
+    }
+  }
+  ]
+};
+```
+
 ```
 switch created
 switch created
