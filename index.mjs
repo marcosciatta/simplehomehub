@@ -3,6 +3,9 @@ import systemCfg from './system.config';
 import { Logger } from './config/logger.mjs';
 import container from './config/dicontainer';
 import Home from './system/home';
+import awilix from 'awilix';
+const listModules = awilix.listModules;
+
 
 let logger = new Logger('system');
 let postal = container.resolve('postal');
@@ -28,16 +31,26 @@ import Bulb from './devices/Bulb'
 let light1 = new Switch('light1','on');
 
 //Inizializing home
-console.log('Initializing Home');
+logger.info('Initializing Home...');
 let home = new Home();
+
+
+logger.info('Check Module registration...');
+
+logger.debug('get Hue module');
+let hue = container.resolve('hue');
+logger.debug('loaded ' + hue.getName());
+
 
 //Add the devices to home
 home.addDevice(mySwitch);
 home.addDevice(mySwitch2);
 home.addDevice(light1);
 
+home.getDevice('switch1').off();
+
 //Create a simple rule using event system
-import RuleEngine from './system/ruleengine';
+/*import RuleEngine from './system/ruleengine';
 import Rule from './system/rule';
 
 let rule_expr = {
@@ -66,32 +79,13 @@ let rule_expr = {
     }
   }
   ]
-};
+}; */
 
-let rule = new Rule('test_rule1',rule_expr);
+/*let rule = new Rule('test_rule1',rule_expr);
 let engine = new RuleEngine();
-engine.addRule(rule);
+engine.addRule(rule); */
 
 
-let switch1 = home.getDevice('switch1');
-console.log('****************************************');
-console.log('home switch 1  in state [' + home.getDevice('switch1').getCurrentState() + ' ]');
-console.log('home switch 2  in state [' + home.getDevice('switch2').getCurrentState() + ' ]');
-console.log('home lamp 1  in state [' + home.getDevice('light1').getCurrentState() + ' ]');
-console.log('****************************************');
-console.log();
-console.log('-----------------------------------------');
-console.log('shutdown switch 1');
-console.log('-----------------------------------------');
-
-switch1.off();
-
-console.log();
-console.log('****************************************');
-console.log('home switch 1  in state [' + home.getDevice('switch1').getCurrentState() + ' ]');
-console.log('home switch 2  in state [' + home.getDevice('switch2').getCurrentState() + ' ]');
-console.log('home lamp 1  in state [' + home.getDevice('light1').getCurrentState() + ' ]');
-console.log('****************************************');
 
 app.listen(systemCfg.APP_PORT, () => {
   console.log('app.start');

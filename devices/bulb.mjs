@@ -1,6 +1,6 @@
-import baseDevice from './baseDevice'
+import switchableDevice from './switchableDevice'
 
-class Bulb extends baseDevice {
+class Bulb extends switchableDevice {
 
   constructor(identity,defaultState = 'on'){
     super(identity,defaultState);

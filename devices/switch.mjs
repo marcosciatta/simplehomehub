@@ -1,12 +1,12 @@
-import baseDevice from './baseDevice'
+import switchableDevice from './switchableDevice'
 
-class Switch extends baseDevice {
+class Switch extends switchableDevice {
 
   constructor(identity,defaultState = 'on'){
     super(identity,defaultState);
-    console.log('switch created');
+    console.log('bulb created');
   }
 
 }
 
-export default Switch;
+export default Bulb;
