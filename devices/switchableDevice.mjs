@@ -1,13 +1,14 @@
 import baseDevice from './baseDevice'
 import StateMachine from 'javascript-state-machine';
 import container from '../config/dicontainer';
+import { deviceChangedStateEvt } from '../system/events.mjs';
 
 class SwitchableDevice extends baseDevice {
 
   constructor(identity,defaultState = 'on'){
     super(identity);
 
-    this.postal = this.container.resolve('postal');
+    this.messagebus = this.container.resolve('messagebus');
     this.machine = new StateMachine({
       transitions: [
         { name: 'on', from: 'off', to: 'on' },
@@ -19,7 +20,7 @@ class SwitchableDevice extends baseDevice {
     this.setState(defaultState);
     this.machine.observe({
       onTransition: (lifecycle) => {
-        this.postal.publish({channel:'device',topic: 'change-state-event', data: { device_identity: this.identity,state: lifecycle.to, event: lifecycle}});
+        this.messagebus.pusblish(new deviceChangedStateEvt(this.identity,lifecycle.from,lifecycle.to));
       }
     });
   }

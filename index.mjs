@@ -10,25 +10,9 @@ const listModules = awilix.listModules;
 let logger = new Logger('system');
 let postal = container.resolve('postal');
 
-//TEST
-postal.subscribe({
-  channel: 'device',
-  topic: 'change-state-event',
-  callback: function (data, envelope){
-    console.log('['+data.device_identity+'] from :  ' + data.event.from);
-    console.log('['+data.device_identity+'] from :  ' + data.event.to);
-  }
-});
 
 //Example code
 //create two switches
-import Switch from './devices/switch'
-let mySwitch = new Switch('switch1','on');
-let mySwitch2 = new Switch('switch2','on');
-
-//create a new light bulb
-import Bulb from './devices/Bulb'
-let light1 = new Switch('light1','on');
 
 //Inizializing home
 logger.info('Initializing Home...');
@@ -42,12 +26,6 @@ let hue = container.resolve('hue');
 logger.debug('loaded ' + hue.getName());
 
 
-//Add the devices to home
-home.addDevice(mySwitch);
-home.addDevice(mySwitch2);
-home.addDevice(light1);
-
-home.getDevice('switch1').off();
 
 //Create a simple rule using event system
 /*import RuleEngine from './system/ruleengine';

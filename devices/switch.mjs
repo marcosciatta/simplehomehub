@@ -6,7 +6,6 @@ class Switch extends switchableDevice {
     super(identity,defaultState);
     console.log('bulb created');
   }
-
 }
 
-export default Bulb;
+export default Switch;

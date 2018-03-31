@@ -2,26 +2,28 @@ import _ from 'lodash';
 import container from '../config/dicontainer';
 
 class Home {
+
   constructor(){
-      this.devices = new Array();
-      this.systemData = {};
-      let self = this;
+      this.devices = new Map;
       this.container = container;
-      this.postal = this.container.resolve('postal');
-      this.postal.subscribe({
-        channel: 'device',
-        topic: 'change-state-to-event',
-        callback: self.changeDeviceStateTo.bind(this)
-      });
+
+      //this.postal = this.container.resolve('messagebus');
+      //this.postal.subscribe({
+      //  channel: 'device',
+      //  topic: 'change-state-to-event',
+      //  callback: self.changeDeviceStateTo.bind(this)
+      //});
   }
 
-  addDevice(device){
-    this.devices.push(device);
+  addDevice(id,device){
+    this.devices.set(id,device);
   }
 
   getDevice(device_identity){
-    let index = _.findIndex(this.devices, ['identity', device_identity]);
-    return this.devices[index];
+    if(this.devices.has(id)){
+      return this.devices.get(id);
+    }
+    return false;
   }
 
   changeDeviceStateTo(data, envelope) {
@@ -30,11 +32,6 @@ class Home {
       device.setState(data.state);
     }
   }
-
-  systemSnapshot(){
-
-  }
-
 }
 
 export default Home;

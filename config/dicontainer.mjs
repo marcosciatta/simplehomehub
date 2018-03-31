@@ -2,6 +2,7 @@ import awilix from 'awilix';
 import events from 'events';
 import postal from 'postal';
 import { Logger } from './logger.mjs';
+import MessageBus from './messagebus.mjs';
 import Hue from '../applaiances/hue/hue.mjs';
 
 //import philipsHue from '../applaiances/hue/philipsHue.mjs';
@@ -20,7 +21,8 @@ container.register({
     ee: asClass(ee).singleton(),
     postal: asValue(postal),
     logger: asClass(Logger),
-    hue: asClass(Hue).singleton()
+    hue: asClass(Hue).singleton(),
+    messagebus: asClass(MessageBus).singleton()
 });
 let logger = new Logger('di');
 logger.debug('Current injected services: ' + listModules.length);
