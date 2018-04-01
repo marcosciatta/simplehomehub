@@ -3,7 +3,7 @@ import events from 'events';
 import postal from 'postal';
 import { Logger } from './logger.mjs';
 import MessageBus from './messagebus.mjs';
-import Hue from '../applaiances/hue/hue.mjs';
+import ComponentRegistry from '../system/componentRegistry.mjs';
 
 //import philipsHue from '../applaiances/hue/philipsHue.mjs';
 
@@ -21,9 +21,11 @@ container.register({
     ee: asClass(ee).singleton(),
     postal: asValue(postal),
     logger: asClass(Logger),
-    hue: asClass(Hue).singleton(),
-    messagebus: asClass(MessageBus).singleton()
+    messagebus: asClass(MessageBus).singleton(),
+    componentRegistry: asClass(ComponentRegistry).singleton()
 });
+
+
 let logger = new Logger('di');
 logger.debug('Current injected services: ' + listModules.length);
 export default container;

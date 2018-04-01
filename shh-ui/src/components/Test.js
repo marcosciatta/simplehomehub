@@ -2,7 +2,7 @@ import React from 'react'
 
 const Test = () => (
   <div>
-    <h1>Welcome to theTEST  Website!</h1>
+    <h1>Static content...</h1>
   </div>
 )
 

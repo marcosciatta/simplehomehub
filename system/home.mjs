@@ -6,13 +6,6 @@ class Home {
   constructor(){
       this.devices = new Map;
       this.container = container;
-
-      //this.postal = this.container.resolve('messagebus');
-      //this.postal.subscribe({
-      //  channel: 'device',
-      //  topic: 'change-state-to-event',
-      //  callback: self.changeDeviceStateTo.bind(this)
-      //});
   }
 
   addDevice(id,device){

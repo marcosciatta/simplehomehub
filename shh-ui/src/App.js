@@ -4,9 +4,10 @@ import Header from './components/Header'
 import Main from './components/Main'
 
 class App extends Component {
+
   render() {
     return (
-      <div>
+      <div id="page_container">
         <Header />
         <Main />
       </div>

@@ -1,18 +1,22 @@
-import  huejay from 'huejay';
-import container from '../../config/dicontainer.mjs';
+import huejay from 'huejay';
 import { Logger } from '../../config/logger.mjs';
+import ComponentRegistry from '../../system/componentRegistry';
 
 class Hue {
-  constructor(){
+  constructor(container){
     this.container = container;
     this.logger = new Logger('Hue');
   }
 
-  getName(){
-    return 'Philips hue service';
+  static registerInfo(){
+    return {type: ComponentRegistry.typeApplaiance, name: 'Philips hue', 'icon': '/applaiances/hue.jpg','short_name': 'Philips Hue'};
   }
 
-  discovery(){
+  install(){
+    console.log('Install plugin!!!');
+  }
+
+  _discovery(){
     this.logger.debug('Starting brige installation...');
     huejay.discover()
       .then(bridges => {
