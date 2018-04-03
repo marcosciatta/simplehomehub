@@ -1,3 +1,8 @@
+#  DA CAPIRE PER FINIRE LA BASE
+- [ ]  Un sistema decente che permetta di caricare i moduli delle applaiances dinamicamente. (qualcosa che carichi tutti i file della dir x ?)
+- [ ] Una soluzione che permetta in modo almeno funzionante e decente, di far definire ai moduli applaiances dei *servizi* (*o eventi??*) che è possibile usare, che corrispondono a delle azioni che il modulo mette a disposizione. Di questa parte non sono molto sicuro.. è corretto che i plugin mettano a disposizione delle azioni o le azioni sui device devono ben essere definite a priori (tipo documentate) ????? oppure deve essere tutto ad eventi ??   **E come fa un servizio qualsiasi a sapere che quella "hue.activate_scene" corrisponse all'azione setScene(scene_id) del servizio registrato come 'hue'?**
+
+
 # Devices
 
 I devices sono i componenti basilari del sistema.
