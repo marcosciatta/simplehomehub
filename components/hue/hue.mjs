@@ -3,13 +3,6 @@ import { Logger } from '../../config/logger.mjs';
 import ComponentRegistry from '../../system/componentRegistry';
 import container from '../../config/dicontainer';
 
-class TV{
-   accendiTv(){
-
-   }
-}
-
-
 class Hue {
   constructor(ee,messagebus){
     console.log('start hue component');
@@ -53,13 +46,18 @@ class Hue {
 //awilikx (mi registro le azioni da qualche parte in un service container un array [nome oggetto , servizi],  non lo so)
 //ui register services dell'instanza della classe.
 //tv.setSchene()!!!!grandeeeee
-  setschene()
+  setSceneExample(param)
   {
 
+    this.logger.info('In component service');
+    this.logger.debug(param);
+    this.logger.debug('With arrow function works!!!');
   }
+
+
   registerServices(){
     return {
-      'set_scene': this.turnOnDevice
+      'set_scene': (param) => {this.setSceneExample(param) }
     }
   }
 

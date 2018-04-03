@@ -16,31 +16,31 @@ let componentRegistry = container.resolve('componentRegistry');
 logger.info('Initializing Home...');
 let home = new Home();
 
-//Register plugins. (statically for now');
+//Register plugins. (should be dynamic)
 logger.info('Register plugins...');
 componentRegistry.registerComponent('hue',Hue);
 console.log(componentRegistry.getComponents(componentRegistry.typeApplaiance));
-console.log('LAUNCH RESOLVE IN INDEX');
-let hue = container.resolve('hue');
 
 
+//Register new light (dovrebbe farlo il component hue ad esempio)
 let light = new Light('light1','hue','on');
 light.off();
 
 
+//Questa parte va definita per bene...
+//1) I servizi dovrebbero registrarsi in automatico
+//2) Le azioni idem in qualche parte (stesso container di, altro container, quando registri un component in component registry ?? il component registry non dovrebbe esistere? ahhhhhrrrghhhh)
 let services = [];
+let hue = container.resolve('hue');
 services = hue.registerServices();
-console.log('SERVICES');
-console.log(services);
-services['turn_on_device']({test:'prova'});
+services['set_scene']({test:'prova'});
 
 
 
 
-
+//App Da spostare!!
 import app from './config/app.mjs';
 
-//Create express api path
 app.listen(systemCfg.APP_PORT, () => {
   console.log('app.start');
   postal.channel('system').publish('app.started',{});
@@ -49,10 +49,6 @@ app.listen(systemCfg.APP_PORT, () => {
     console.log('on error handler');
     console.log(err);
 });
-
-
-
-
 process.on('uncaughtException', function(err) {
     console.log('process.on handler');
     console.log(err);

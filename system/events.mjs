@@ -26,7 +26,6 @@ class DeviceStateChangedEvent{
     this.data.identity = identity;
     this.data = _.assign(data,{from: from, to: to});
     this.data = data;
-    console.log(this);
   }
 }
 

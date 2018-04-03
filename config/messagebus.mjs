@@ -3,7 +3,6 @@ import container from '../config/dicontainer';
 
 class MessageBus {
   constructor(){
-      console.log('construcotr messagebus');
       this.container = container;
       this.postal = this.container.resolve('postal');
   }

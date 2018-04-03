@@ -12,7 +12,6 @@ const typeService = 'service';
 class ComponentRegistry{
 
   constructor(ee){
-    console.log(this.ee);
     this.components = new Map;
     this.container = container;
   }
@@ -26,10 +25,6 @@ class ComponentRegistry{
   }
 
   registerComponent(name,comp){
-    console.log('register component');
-    console.log(container.register);
-    console.log('end register component');
-    console.log('REGISTER : ' + name);
     container.register({
       [name]: asClass(comp).singleton()
     });
