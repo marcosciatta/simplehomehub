@@ -4,13 +4,15 @@ import InjectionMode from 'awilix';
 import awilix from 'awilix';
 const asClass = awilix.asClass;
 const asValue = awilix.asValue;
+import Hue from '../components/hue/hue';
 
 const typeApplaiance = 'applaiance';
 const typeService = 'service';
 
 class ComponentRegistry{
 
-  constructor(container){
+  constructor(ee){
+    console.log(this.ee);
     this.components = new Map;
     this.container = container;
   }
@@ -24,10 +26,14 @@ class ComponentRegistry{
   }
 
   registerComponent(name,comp){
+    console.log('register component');
+    console.log(container.register);
+    console.log('end register component');
+    console.log('REGISTER : ' + name);
     container.register({
       [name]: asClass(comp).singleton()
     });
-    this.components.set(name, comp.registerInfo());
+  //  this.components.set(name, comp);
   }
 
   getComponents(type){

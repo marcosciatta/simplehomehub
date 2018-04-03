@@ -1,11 +1,12 @@
 import systemCfg from './system.config';
 import { Logger } from './config/logger.mjs';
 import container from './config/dicontainer';
+import Light from './devices/light';
 import Home from './system/home';
 import awilix from 'awilix';
 const listModules = awilix.listModules;
 
-import Hue from './components/hue/hue';
+import Hue from './components/hue/hue.mjs';
 
 let logger = new Logger('system');
 let postal = container.resolve('postal');
@@ -19,6 +20,22 @@ let home = new Home();
 logger.info('Register plugins...');
 componentRegistry.registerComponent('hue',Hue);
 console.log(componentRegistry.getComponents(componentRegistry.typeApplaiance));
+console.log('LAUNCH RESOLVE IN INDEX');
+let hue = container.resolve('hue');
+
+
+let light = new Light('light1','hue','on');
+light.off();
+
+
+let services = [];
+services = hue.registerServices();
+console.log('SERVICES');
+console.log(services);
+services['turn_on_device']({test:'prova'});
+
+
+
 
 
 import app from './config/app.mjs';

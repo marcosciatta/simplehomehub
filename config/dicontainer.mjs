@@ -4,6 +4,7 @@ import postal from 'postal';
 import { Logger } from './logger.mjs';
 import MessageBus from './messagebus.mjs';
 import ComponentRegistry from '../system/componentRegistry.mjs';
+import Home from '../system/home.mjs';
 
 //import philipsHue from '../applaiances/hue/philipsHue.mjs';
 
@@ -22,7 +23,8 @@ container.register({
     postal: asValue(postal),
     logger: asClass(Logger),
     messagebus: asClass(MessageBus).singleton(),
-    componentRegistry: asClass(ComponentRegistry).singleton()
+    componentRegistry: asClass(ComponentRegistry).singleton(),
+    home: asClass(Home).singleton()
 });
 
 

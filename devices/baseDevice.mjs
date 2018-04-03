@@ -3,7 +3,8 @@ import container from '../config/dicontainer';
 
 class BaseDevice {
 
-  constructor(identity){
+  constructor(identity,realm){
+    this.realm = realm;
     this.identity = identity;
     this.container = container;
   }
@@ -11,4 +12,4 @@ class BaseDevice {
 
 }
 
-export default baseDevice;
+export default BaseDevice;

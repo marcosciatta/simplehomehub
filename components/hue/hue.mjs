@@ -1,11 +1,30 @@
 import huejay from 'huejay';
 import { Logger } from '../../config/logger.mjs';
 import ComponentRegistry from '../../system/componentRegistry';
+import container from '../../config/dicontainer';
+
+class TV{
+   accendiTv(){
+
+   }
+}
+
 
 class Hue {
-  constructor(container){
+  constructor(ee,messagebus){
+    console.log('start hue component');
     this.container = container;
+    this.messagebus = messagebus;
+    this.messagebus = container.resolve('messagebus');
     this.logger = new Logger('Hue');
+    this.messagebus.subscribe({
+        channel: 'home',
+        topic: 'hue.changed.state',
+        callback: (data, envelope) => {
+            console.log(this.messagebus);
+            console.log('Shutdown lamp 1');
+        }
+    });
   }
 
   static registerInfo(){
@@ -30,5 +49,20 @@ class Hue {
       });
     this.logger.debug('Done bridge discovery');
   }
+
+//awilikx (mi registro le azioni da qualche parte in un service container un array [nome oggetto , servizi],  non lo so)
+//ui register services dell'instanza della classe.
+//tv.setSchene()!!!!grandeeeee
+  setschene()
+  {
+
+  }
+  registerServices(){
+    return {
+      'set_scene': this.turnOnDevice
+    }
+  }
+
+
 }
 export default Hue;
