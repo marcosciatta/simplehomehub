@@ -4,16 +4,16 @@ import InjectionMode from 'awilix';
 import awilix from 'awilix';
 const asClass = awilix.asClass;
 const asValue = awilix.asValue;
-import Hue from '../components/hue/hue';
 
 const typeApplaiance = 'applaiance';
 const typeService = 'service';
 
-class ComponentRegistry{
+class PluginRegistry{
 
-  constructor(ee){
+  constructor(services){
     this.componentsMap = new Map;
-    this.container = container;
+    let logger = services.logger;
+    this.logger = new logger('pluginRegistry');
     this.actionsMap = new Map();
   }
 
@@ -25,7 +25,8 @@ class ComponentRegistry{
     return typeService;
   }
 
-  registerComponent(name,comp){
+  registerPlugin(name,comp){
+    this.logger.debug('Register plugin ['+name+']');
     container.register({
       [name]: asClass(comp).singleton().setInjectionMode(InjectionMode.CLASSIC)
     });
@@ -33,6 +34,8 @@ class ComponentRegistry{
     this.componentsMap.set(name,comp.registerInfo());
     if(typeof instance.registerServices == 'function'){
         let services = _.keys(instance.registerServices());
+        this.logger.debug('Register services provided by ['+name +']');
+        this.logger.debug(services);
         this.actionsMap.set(name,services);
     }
   }
@@ -46,4 +49,4 @@ class ComponentRegistry{
 
 }
 
-export default ComponentRegistry;
+export default PluginRegistry;

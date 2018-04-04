@@ -1,48 +1,51 @@
 import systemCfg from './system.config';
-import { Logger } from './config/logger.mjs';
+import { Logger } from './config/logger';
 import container from './config/dicontainer';
-import Light from './devices/light';
-import Home from './system/home';
-import awilix from 'awilix';
-const listModules = awilix.listModules;
-
-import Hue from './components/hue/hue.mjs';
+import _ from 'lodash';
+import glob from "glob";
 
 let logger = new Logger('system');
-let postal = container.resolve('postal');
-let componentRegistry = container.resolve('componentRegistry');
+let pluginRegistry = container.resolve('pluginRegistry');
 
-//Inizializing home
-logger.info('Initializing Home...');
-let home = new Home();
+
+logger.info('Start system...');
+logger.info('Initializing plugins...');
+
+glob('./plugins/*/*.*js',function(er,files){
+  _.forEach(files,function(file){
+    import(file).then(obj => {
+      logger.debug('Load plugin ['+ obj.default.registerInfo().id+']');
+      pluginRegistry.registerPlugin(obj.default.registerInfo().id,obj.default);
+    });
+  });
+});
 
 //Register plugins. (should be dynamic)
-logger.info('Register plugins...');
-componentRegistry.registerComponent('hue',Hue);
-console.log(componentRegistry.getComponents(componentRegistry.typeApplaiance));
+//logger.info('Register plugins...');
+//componentRegistry.registerComponent('hue',Hue);
+//console.log(componentRegistry.getComponents(componentRegistry.typeApplaiance));
 
 
 //Register new light (dovrebbe farlo il component hue ad esempio)
-let light = new Light('light1','hue','on');
-light.off();
+//let light = new Light('light1','hue','on');
+//light.off();
 
 
 //Questa parte va definita per bene...
 //1) I servizi dovrebbero registrarsi in automatico
 //2) Le azioni idem in qualche parte (stesso container di, altro container, quando registri un component in component registry ?? il component registry non dovrebbe esistere? ahhhhhrrrghhhh)
 
-let services = [];
-let hue = container.resolve('hue');
-services = hue.registerServices();
-services['set_scene']({test:'prova'});
-
+//let services = [];
+//let hue = container.resolve('hue');
+//services = hue.registerServices();
+//services['set_scene']({test:'prova'});
 
 
 
 //App Da spostare!!
-import app from './config/app.mjs';
+//import app from './config/app.mjs';
 
-app.listen(systemCfg.APP_PORT, () => {
+/*app.listen(systemCfg.APP_PORT, () => {
   console.log('app.start');
   postal.channel('system').publish('app.started',{});
   logger.info(`server started on port ${systemCfg.APP_PORT} (${systemCfg.NODE_ENV})`); // eslint-disable-line no-console
@@ -54,3 +57,4 @@ process.on('uncaughtException', function(err) {
     console.log('process.on handler');
     console.log(err);
 });
+*/

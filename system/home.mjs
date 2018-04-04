@@ -1,11 +1,7 @@
-import _ from 'lodash';
-import container from '../config/dicontainer';
-
 class Home {
-
-  constructor(){
+  constructor(opts){
       this.devices = new Map;
-      this.container = container;
+      this.container = opts.container;
   }
 
   addDevice(id,device){

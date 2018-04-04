@@ -1,13 +1,10 @@
 import awilix from 'awilix';
 import events from 'events';
-import postal from 'postal';
 import { Logger } from './logger.mjs';
 import MessageBus from './messagebus.mjs';
-import ComponentRegistry from '../system/componentRegistry.mjs';
+import PluginRegistry from '../system/pluginRegistry.mjs';
 import Home from '../system/home.mjs';
-
-//import philipsHue from '../applaiances/hue/philipsHue.mjs';
-
+import postal from 'postal';
 const asClass = awilix.asClass;
 const asValue = awilix.asValue;
 const createContainer = awilix.createContainer;
@@ -18,16 +15,16 @@ const listModules = awilix.listModules;
 const container = createContainer();
 const ee = events.EventEmitter;
 
+let logger = new Logger('di');
 container.register({
     ee: asClass(ee).singleton(),
+    logger: asValue(Logger),
     postal: asValue(postal),
-    logger: asClass(Logger),
     messagebus: asClass(MessageBus).singleton(),
-    componentRegistry: asClass(ComponentRegistry).singleton(),
+    pluginRegistry: asClass(PluginRegistry).singleton(),
     home: asClass(Home).singleton()
 });
+logger.info('Initializing container...');
 
-
-let logger = new Logger('di');
 logger.debug('Current injected services: ' + listModules.length);
 export default container;

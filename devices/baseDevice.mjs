@@ -22,7 +22,7 @@ class BaseDevice {
   canDoOperation(op){
     this.machine.can(op);
   }
-  
+
   getOperations(){
     return this.machine.transitions();
   }

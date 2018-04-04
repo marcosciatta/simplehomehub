@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import container from '../config/dicontainer';
 
+
 class MessageBus {
   constructor(){
       this.container = container;

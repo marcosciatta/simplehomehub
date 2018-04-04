@@ -1,6 +1,6 @@
 import huejay from 'huejay';
 import { Logger } from '../../config/logger.mjs';
-import ComponentRegistry from '../../system/componentRegistry';
+import PluginRegistry from '../../system/pluginRegistry';
 import container from '../../config/dicontainer';
 
 class Hue {
@@ -20,8 +20,9 @@ class Hue {
     });
   }
 
+
   static registerInfo(){
-    return {type: ComponentRegistry.typeApplaiance, name: 'Philips hue', 'icon': '/applaiances/hue.jpg','short_name': 'Philips Hue'};
+    return {id: 'hue', type: PluginRegistry.typeApplaiance, name: 'Philips hue', 'icon': '/applaiances/hue.jpg','short_name': 'Philips Hue'};
   }
 
   install(){
@@ -57,10 +58,12 @@ class Hue {
 
   registerServices(){
     return {
-      set_scene: (param) => {this.setSceneExample(param) }
+      set_scene: (param) => {this.setSceneExample(param) },
+      delete_scene: (param) => { this.deleteScene(param) }
     }
   }
 
 
 }
+//export { Hue as Hue };
 export default Hue;
