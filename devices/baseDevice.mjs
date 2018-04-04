@@ -7,6 +7,20 @@ class BaseDevice {
     this.realm = realm;
     this.identity = identity;
     this.container = container;
+    this.machine = null;
+    this.attributes = new Map();
+  }
+
+
+  setAttribute(name,value){
+    this.attributes.set(name,value);
+  }
+
+  getAttribute(name){
+    if(this.attributes.has(name)){
+      return this.attributes.get(name);
+    }
+    return undefined;
   }
 
 
