@@ -30,6 +30,7 @@ light.off();
 //Questa parte va definita per bene...
 //1) I servizi dovrebbero registrarsi in automatico
 //2) Le azioni idem in qualche parte (stesso container di, altro container, quando registri un component in component registry ?? il component registry non dovrebbe esistere? ahhhhhrrrghhhh)
+
 let services = [];
 let hue = container.resolve('hue');
 services = hue.registerServices();

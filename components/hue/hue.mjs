@@ -57,7 +57,7 @@ class Hue {
 
   registerServices(){
     return {
-      'set_scene': (param) => {this.setSceneExample(param) }
+      set_scene: (param) => {this.setSceneExample(param) }
     }
   }
 

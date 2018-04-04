@@ -12,8 +12,9 @@ const typeService = 'service';
 class ComponentRegistry{
 
   constructor(ee){
-    this.components = new Map;
+    this.componentsMap = new Map;
     this.container = container;
+    this.actionsMap = new Map();
   }
 
   static get typeApplaiance(){
@@ -26,15 +27,20 @@ class ComponentRegistry{
 
   registerComponent(name,comp){
     container.register({
-      [name]: asClass(comp).singleton()
+      [name]: asClass(comp).singleton().setInjectionMode(InjectionMode.CLASSIC)
     });
-  //  this.components.set(name, comp);
+    let instance = container.build(comp);
+    this.componentsMap.set(name,comp.registerInfo());
+    if(typeof instance.registerServices == 'function'){
+        let services = _.keys(instance.registerServices());
+        this.actionsMap.set(name,services);
+    }
   }
 
   getComponents(type){
     if(type != '' || type != undefined){
-      return(_.filter(Array.from(this.components.values()),{'type':'applaiance'}));
-    } else return Array.from(this.components.values());
+      return(_.filter(Array.from(this.componentsMap.values()),{'type':'applaiance'}));
+    } else return Array.from(this.componentsMap.values());
   }
 
 
