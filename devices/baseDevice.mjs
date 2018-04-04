@@ -7,10 +7,29 @@ class BaseDevice {
     this.realm = realm;
     this.identity = identity;
     this.container = container;
-    this.machine = null;
+    this.machine = new StateMachine({});
     this.attributes = new Map();
   }
 
+  getAvailableStates(){
+    return this.machine.allStates();
+  }
+
+  getCurrentState(){
+    return this.machine.state;
+  }
+
+  canDoOperation(op){
+    this.machine.can(op);
+  }
+  
+  getOperations(){
+    return this.machine.transitions();
+  }
+
+  getAttributes(){
+    return this.attributes.keys();
+  }
 
   setAttribute(name,value){
     this.attributes.set(name,value);
