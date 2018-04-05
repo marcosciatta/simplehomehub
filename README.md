@@ -1,5 +1,38 @@
 # Update 1.0.1
 
+Example Flow
+```sh
+info: [system] Start system...
+info: [system] Initializing plugins...
+debug: [system] Load plugin [hue]
+debug: [pluginRegistry] Register plugin [hue]
+info: [system] Install Hue component
+debug: [Hue] Start component
+debug: [Hue] Register listeners
+debug: [Hue] Install component...
+debug: [Hue] Creating one light device on realm [hue]
+debug: [Home] Added device [light001]
+debug: [messagebus] Publish message
+debug: [messagebus]  channel=home, topic=hue.device_added, identity=light001, state=off, , realm=hue,
+info: [system] Turn on hue light explicit
+debug: [Home] get device light001
+debug: [system] Light state is off
+debug: [system] Light state is on
+info: [system] Turn off hue light with event
+debug: [system] Light state is on
+debug: [messagebus] Publish message
+debug: [messagebus]  channel=home, topic=home.change.state, operation=off, identity=light001
+debug: [Home] Change state to device [light001] to off
+debug: [Home] get device light001
+debug: [messagebus] Publish message
+debug: [messagebus]  channel=home, topic=hue.changed.state, from=on, to=off
+debug: [Hue] Recived message
+info: [Hue] Shutdown lamp
+debug: [system] Light state is off
+[nodemon] clean exit - waiting for changes before restart
+
+```
+
 ## I device e la classe Home
 
 ### I device
