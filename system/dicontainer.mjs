@@ -2,11 +2,12 @@ import awilix from 'awilix';
 import events from 'events';
 import { Logger } from './logger.mjs';
 import MessageBus from './messagebus.mjs';
-import PluginRegistry from '../system/pluginRegistry.mjs';
-import Home from '../system/home.mjs';
+import ComponentRegistry from './componentRegistry.mjs';
+import Home from './home.mjs';
 import postal from 'postal';
 const asClass = awilix.asClass;
 const asValue = awilix.asValue;
+const asFunction = awilix.asFunction;
 const createContainer = awilix.createContainer;
 const Lifetime = awilix.Lifetime
 const InjectionMode = awilix.InjectionMode;
@@ -21,7 +22,7 @@ container.register({
     logger: asValue(Logger),
     postal: asValue(postal),
     messagebus: asClass(MessageBus).singleton(),
-    pluginRegistry: asClass(PluginRegistry).singleton(),
+    componentRegistry: asClass(ComponentRegistry).singleton(),
     home: asClass(Home).singleton()
 });
 logger.info('Initializing container...');

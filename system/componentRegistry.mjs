@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import container from '../config/dicontainer';
+import container from '../system/dicontainer';
 import InjectionMode from 'awilix';
 import awilix from 'awilix';
 const asClass = awilix.asClass;
@@ -8,7 +8,7 @@ const asValue = awilix.asValue;
 const typeApplaiance = 'applaiance';
 const typeService = 'service';
 
-class PluginRegistry{
+class ComponentRegistry{
 
   constructor(services){
     this.componentsMap = new Map;
@@ -28,9 +28,10 @@ class PluginRegistry{
   registerPlugin(name,comp){
     this.logger.debug('Register plugin ['+name+']');
     container.register({
-      [name]: asClass(comp).singleton().setInjectionMode(InjectionMode.CLASSIC)
+      [name]: asClass(comp).singleton()
     });
-    let instance = container.build(comp);
+    //let instance = container.build(comp);
+    let instance = comp;
     this.componentsMap.set(name,comp.registerInfo());
     if(typeof instance.registerServices == 'function'){
         let services = _.keys(instance.registerServices());
@@ -38,6 +39,10 @@ class PluginRegistry{
         this.logger.debug(services);
         this.actionsMap.set(name,services);
     }
+  }
+
+  getComponent(name){
+    return container.resolve(name);
   }
 
   getComponents(type){
@@ -49,4 +54,4 @@ class PluginRegistry{
 
 }
 
-export default PluginRegistry;
+export default ComponentRegistry;

@@ -1,14 +1,15 @@
 import StateMachine from 'javascript-state-machine';
-import container from '../config/dicontainer';
+import container from '../system/dicontainer';
 
 class BaseDevice {
 
-  constructor(identity,realm){
+  constructor(identity,realm,attributes,data){
     this.realm = realm;
     this.identity = identity;
     this.container = container;
     this.machine = new StateMachine({});
-    this.attributes = new Map();
+    this.attributes = new Map(attributes);
+    this.data = {};
   }
 
   getAvailableStates(){
@@ -40,6 +41,16 @@ class BaseDevice {
       return this.attributes.get(name);
     }
     return undefined;
+  }
+
+  toData(){
+    return {
+      identity: this.identity,
+      state: this.getCurrentState(),
+      attributes: this.attributes,
+      realm: this.realm,
+      data: this.data
+    }
   }
 
 

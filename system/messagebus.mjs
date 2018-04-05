@@ -1,14 +1,14 @@
 import _ from 'lodash';
-import container from '../config/dicontainer';
-
 
 class MessageBus {
-  constructor(){
-      this.container = container;
-      this.postal = this.container.resolve('postal');
+  constructor({postal,logger}){
+      this.postal = postal;
+      this.logger = new logger('messagebus');
   }
 
   publish(eventObject){
+    this.logger.debug('Publish message');
+    this.logger.debug({channel:eventObject.channel,topic: eventObject.topic, data: eventObject.data});
     this.postal.publish({channel:eventObject.channel,topic: eventObject.topic, data: eventObject.data});
   }
 

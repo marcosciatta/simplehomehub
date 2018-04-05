@@ -33,7 +33,7 @@ class DeviceStateChangeEvent{
   constructor(identity,realm,operation,data={}){
     this.channel = 'home';
     this.topic = realm+'.change.state';
-    this.data = _.assing({operation:operation},data);
+    this.data = _.assign({operation:operation},data);
     this.data.identity = identity;
   }
 }

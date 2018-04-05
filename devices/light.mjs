@@ -2,8 +2,8 @@ import switchableDevice from './switchableDevice'
 
 class Light extends switchableDevice {
 
-  constructor(identity,realm,defaultState = 'on'){
-    super(identity,realm,defaultState);
+  constructor(identity,realm,defaultState = 'on',attributes,data){
+    super(identity,realm,defaultState,attributes,data);
   }
 
 }

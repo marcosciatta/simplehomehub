@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import container from '../config/dicontainer';
+import container from './dicontainer';
 
 class RuleEngine  {
 

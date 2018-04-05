@@ -1,30 +1,51 @@
-import systemCfg from './system.config';
-import { Logger } from './config/logger';
-import container from './config/dicontainer';
 import _ from 'lodash';
 import glob from "glob";
+import systemCfg from './system.config';
+import { Logger } from './system/logger';
+import container from './system/dicontainer';
+import {DeviceStateChangeEvent} from './system/events';
 
 let logger = new Logger('system');
-let pluginRegistry = container.resolve('pluginRegistry');
-
+let componentRegistry = container.resolve('componentRegistry');
+let messagebus = container.resolve('messagebus');
 
 logger.info('Start system...');
 logger.info('Initializing plugins...');
 
-glob('./plugins/*/*.*js',function(er,files){
+glob('./components/*/*.*js',function(er,files){
   _.forEach(files,function(file){
-    import(file).then(obj => {
+    import(file)
+    .then(obj => {
       logger.debug('Load plugin ['+ obj.default.registerInfo().id+']');
-      pluginRegistry.registerPlugin(obj.default.registerInfo().id,obj.default);
+      componentRegistry.registerPlugin(obj.default.registerInfo().id,obj.default);
+    })
+    .then(() => {
+        //Try the install step
+        logger.info('Install Hue component');
+        let hue = componentRegistry.getComponent('hue');
+        hue.install();
+
+        logger.info('Turn on hue light explicit');
+        let home = container.resolve('home');
+        let light = home.getDevice('light001');
+        logger.debug('Light state is '+ light.getCurrentState());
+        light.on();
+        logger.debug('Light state is '+ light.getCurrentState());
+        //light.off();
+
+        logger.info('Turn off hue light with event');
+        logger.debug('Light state is '+ light.getCurrentState());
+        messagebus.publish(new DeviceStateChangeEvent(light.identity,'home','off'));
+        logger.debug('Light state is '+ light.getCurrentState());
+
+
+    }).catch((error) => {
+      console.log(error);
     });
   });
-});
+})
 
-//Register plugins. (should be dynamic)
-//logger.info('Register plugins...');
-//componentRegistry.registerComponent('hue',Hue);
-//console.log(componentRegistry.getComponents(componentRegistry.typeApplaiance));
-
+//Try to install fake hue device
 
 //Register new light (dovrebbe farlo il component hue ad esempio)
 //let light = new Light('light1','hue','on');

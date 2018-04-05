@@ -1,12 +1,12 @@
 import baseDevice from './baseDevice'
 import StateMachine from 'javascript-state-machine';
-import container from '../config/dicontainer';
+import container from '../system/dicontainer';
 import { DeviceStateChangedEvent } from '../system/events.mjs';
 
 class SwitchableDevice extends baseDevice {
 
-  constructor(identity,realm,defaultState = 'on'){
-    super(identity,realm);
+  constructor(identity,realm,defaultState = 'on',attributes,data){
+    super(identity,realm,attributes,data);
 
     this.messagebus = this.container.resolve('messagebus');
     this.machine = new StateMachine({
@@ -19,14 +19,11 @@ class SwitchableDevice extends baseDevice {
     });
 
     this.setState(defaultState);
-    this.machine.observe({
+    /*this.machine.observe({
       onTransition: (lifecycle) => {
-        console.log('Launch message on state change '+ this.identity + ' ' + this.realm);
-        //TRY TO ASYNC PROMISE CALLBACK
         this.messagebus.publish(new DeviceStateChangedEvent(this.identity,this.realm,lifecycle.from,lifecycle.to));
-        //this.messagebus.request(new DeviceStateChangedEvent(this.identity,this.realm,lifecycle.from,lifecycle.to));
       }
-    });
+    });*/
   }
 
     setState(state){
@@ -45,12 +42,6 @@ class SwitchableDevice extends baseDevice {
       return this.machine.state;
     }
 
-    getQuerable(){
-      return {
-        identity: this.identity,
-        state: this.getCurrentState()
-      }
-    }
 
 }
 
