@@ -75,6 +75,8 @@ home.changeDeviceState('ligth_1','off');
 Il sistema di eventi è la parte piu importante del sistema e funge da collante tra la rappresentazione dei devices e i componenti che si occupano effettivamente della loro gestione.
 Varie tipologie di azioni vengono scatenate ogni volta che un particolare evento accade nel sistema. 
 
+**NOTA: Al momento della registrazione di un device , il componente puo' settare una proprietà in piu al device che è *com_type* che puo' essere SYNC o ASYNC. Se sync l'evento sarà lanciato sul bus e non sarà attesa risposta, mentre async il sistema lancerà l'evento ma si aspetterà una promise in ritorno e aggiornerà lo stato del device effettviamente dopo che la promise sarà risolta**
+
 Ad Esempio:
 
 Al cambiamento di stato di un device di tipo *light* con realm *Hue*
