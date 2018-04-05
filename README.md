@@ -4,6 +4,12 @@
 
 ### I device
 I device sono il fulcro dell'ambaradam :D
+I devices sono i componenti basilari del sistema.
+Prendendo ad esempio il plugin per le lampade philips, questo instanzierà n device di tipo *bulb* che precisamente ereditano da basedevice ( un contenitore base ) e da switchable device (che ad esempio fa uso di una semplice macchina a stati per gestire il cambio di stato *acceso* *spento*).
+L'idea è quella di definire un set di device che sia abbastanza grande da definire i dispositivi di uso comune come:
+switch, lampade, sensori di X tipo ecc..
+Ogni device ha una propria struttura interna completamente indipendente dagli altri.
+*/devices/\*.mjs*
 
 Il device si occupa di gestire un singolo apparato presente nella casa. 
 Un device al momento è composto da: 
@@ -54,7 +60,8 @@ I device dovrebbero ereditare tutti dalla classe base BaseDevice o una sua deriv
 - Light
 
 ### La classe home 
-Il contenitore principale di tutti i device. Qui i device vengono registrati
+La classe home è la classe che controlla principalmente la coordinazione tra i device e le funzionalità del sistema per quanto riguarda la parte domotica in se. E' una sorta di coordinatore tra causa ed effetto oltre ad avere il compito di eseguire funzioni accessorie come la descrizione dei device configurati ecc.. E' e dovrebbe essere l'unico modo per accedere a i device dopo che sono stati configurati.
+
 ```javascript
 home.addDevice('light_1', new Light(...)));
 ```
@@ -63,6 +70,45 @@ Ad Esempio:
 ```javascript
 home.changeDeviceState('ligth_1','off');
 ```
+
+## Gli eventi
+Il sistema di eventi è la parte piu importante del sistema e funge da collante tra la rappresentazione dei devices e i componenti che si occupano effettivamente della loro gestione.
+Varie tipologie di azioni vengono scatenate ogni volta che un particolare evento accade nel sistema. 
+
+Ad Esempio:
+
+Al cambiamento di stato di un device di tipo *light* con realm *Hue*
+
+Il device dovrebbe lanciare un evento (se ereditato da uno dei device base con una macchina a stati predefinita è già cosi) 
+
+***'DeviceStateChangeEvent'***  sul message bus. 
+**(NOTA: E' possibile utilizzare delle classi per comodità nella generazione degli eventi ma non necessario)**
+**(NOTA: Vanno quindi definiti a priori in qualche doc ve??)**
+
+Questo evento è composto tra gli altri dati dall'identity del device e il realm di appartenenza. 
+
+Sarà compito del componente stesso (in questo esempio Hue) dover ascoltare un evento 
+
+**hue.changed_state**
+
+ed eseguire un operazione come ad esempio chiamare una api sul bridge hue.
+*NOTA: Gli eventi , tutti, sono prefissati con il realm di appartenenza dell'oggetto che lo ha scatenato*
+
+
+Questo è vero per il contrario anche con una piccola differenza. 
+Nel caso inverso .. sarà Home ad ascoltare gli eventi provenienti dai componenti.
+
+Ad esempio:
+
+Se il componente hue (in polling) si accorgesse che lo stato di una lampada è cambiato dovrebbe mandare un messaggio sul bus
+**DeviceChangeStateEvent***
+
+Il componente home , già in ascolto su eventi predefiniti, recupererà il messaggio e il device appropiato ed eseguirà il cambiamento di stato. 
+
+**NOTA: Ma a sto punto se fa tutto home non è meglio ? Mesa de si ..evitiamo pure che si riscateni evento deviceChanged... **
+
+Gli eventi sono oggetti definiti in
+ *system/events.mjs*
 
 
 ## Servizi disponibili per di
@@ -139,38 +185,13 @@ install(){
 
 
 #  DA CAPIRE PER FINIRE LA BASE
-- [ ]  Un sistema decente che permetta di caricare i moduli delle applaiances dinamicamente. (qualcosa che carichi tutti i file della dir x ?)
-- [ ] Una soluzione che permetta in modo almeno funzionante e decente, di far definire ai moduli applaiances dei *servizi* (*o eventi??*) che è possibile usare, che corrispondono a delle azioni che il modulo mette a disposizione. Di questa parte non sono molto sicuro.. è corretto che i plugin mettano a disposizione delle azioni o le azioni sui device devono ben essere definite a priori (tipo documentate) ????? oppure deve essere tutto ad eventi ??   **E come fa un servizio qualsiasi a sapere che quella "hue.activate_scene" corrisponse all'azione setScene(scene_id) del servizio registrato come 'hue'?**
+- [X]  Un sistema decente che permetta di caricare i moduli delle applaiances dinamicamente. (qualcosa che carichi tutti i file della dir x ?)
+- [X] Una soluzione che permetta in modo almeno funzionante e decente, di far definire ai moduli applaiances dei *servizi* (*o eventi??*) che è possibile usare, che corrispondono a delle azioni che il modulo mette a disposizione. Di questa parte non sono molto sicuro.. è corretto che i plugin mettano a disposizione delle azioni o le azioni sui device devono ben essere definite a priori (tipo documentate) ????? oppure deve essere tutto ad eventi ??   **E come fa un servizio qualsiasi a sapere che quella "hue.activate_scene" corrisponse all'azione setScene(scene_id) del servizio registrato come 'hue'?**
 
 
-# Devices
 
-I devices sono i componenti basilari del sistema.
-Prendendo ad esempio il plugin per le lampade philips, questo instanzierà n device di tipo *bulb* che precisamente ereditano da basedevice ( un contenitore base ) e da switchable device (che ad esempio fa uso di una semplice macchina a stati per gestire il cambio di stato *acceso* *spento*).
-L'idea è quella di definire un set di device che sia abbastanza grande da definire i dispositivi di uso comune come:
-switch, lampade, sensori di X tipo ecc..
-Ogni device ha una propria struttura interna completamente indipendente dagli altri.
-*/devices/\*.mjs*
 
-# Gli eventi
-Come per l'esempio di sopra, con un device di tipo bulb , è possibile cambiarne lo stato.
-Al cambiamento di stato ogni device dovrebbe notificare tramite *messagebus* il cambio di stato con un evento di tipo
-**change-state-event** (oggetto *deviceChangedStateEvt*).
-Gli eventi sono oggetti definiti in
-*system/events.mjs*
 
-# La classe Home
-La classe home è la classe che controlla principalmente la coordinazione tra i device e le funzionalità del sistema per quanto riguarda la parte domotica in se. E' una sorta di coordinatore tra causa ed effetto oltre ad avere il compito di eseguire funzioni accessorie come la descrizione dei device configurati ecc.. E' e dovrebbe essere l'unico modo per accedere a i device dopo che sono stati configurati.
-
-Ad esempio ,dopo che un qualsiasi plugin ha instanziato un nuovo device ,questo deve essere registrato nell'oggetto home.
-ex
-```
-let device = new Switch('uuid');
-home.addDevice('nameofthedevice',device);
-...
-let myswitch = home.getDevice('nameofthedevice');
-myswitch.off();
-```
 
 # Sistema di regole (da rivedere in toto)
 E' un semplice sistema piuttosto basilare al momento.
