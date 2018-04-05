@@ -1,3 +1,143 @@
+# Update 1.1
+
+## I device e la classe Home
+
+### I device
+I device sono il fulcro dell'ambaradam :D
+
+Il device si occupa di gestire un singolo apparato presente nella casa. 
+Un device al momento è composto da: 
+- Identity
+- Realm
+- Stati
+- Attributi
+- Dati Accessori
+- Operazioni
+
+#### Identity
+Identifica univocamente il device.
+
+#### Ream
+Identifica il reame di appartenenza del device. Una lampada ad esempio puo' essere Hue, Lightfx , Ikea , Pappappero...
+
+#### Stati
+Alcuni device possono avere degli stati come ad esempio le lampade (on , off) , mentre alcuni no (sensori) .
+I device che hanno degli stati dovrebbero definirli tramite l'oggetto StateMachine all'interno del device stesso nell'attributo this.machine;
+
+Esempio:
+```javascript
+  constructor(){
+    this.machine = new StateMachine({
+      init: this.defaultState,
+      transitions: [
+        { name: 'on', from: 'off', to: 'on' },
+        { name: 'off', from: 'on', to: 'off'},
+        { name: 'goto', from: '*', to: function(s) { return s } }
+      ]     
+    });
+    }
+```
+
+#### Attributi
+Quasi tutti i device, oltre agli stati veri e propri hanno una serie di attributti modificabili (ad esempio colore, luminosità velocità ecc..). 
+
+
+#### Dati Accessori
+Informazioni addizionali registrate nel device (applaiance model hardware address ecc..) utili per la gestione dello stesso
+
+#### Operazioni
+Una lista delle operazioni che è possibile compiere sul device. Se ad esempio il device implementa una statemachine queste potrebberro essere le transizioni possibili.
+
+I device dovrebbero ereditare tutti dalla classe base BaseDevice o una sua derivata. 
+2 Esempi di device sono Switch e Light
+- Switch
+- Light
+
+### La classe home 
+Il contenitore principale di tutti i device. Qui i device vengono registrati
+```javascript
+home.addDevice('light_1', new Light(...)));
+```
+Questa si prende in carico tutto le operazioni di gestione dei vari device e delle azioni possibili sia sui device sia tramite azioni registrate dai componenti. 
+Ad Esempio:
+```javascript
+home.changeDeviceState('ligth_1','off');
+```
+
+
+## Servizi disponibili per di
+I servizi che è possibile iniettare sono:
+
+- **ee** => Event Emitter
+- **logger** => Winston logger
+- **messagebus** => Il message bus
+- **componentRegistry** => il registro dei compoenti
+- **home** => la classe principale di controllo hub domestico
+
+
+## Gestione componenti
+I componenti nella cartella */components* vengono caricati automaticamente al boot tramite il **ComponentRegistry**.
+
+Le classi componenti devono estendere la classe *BaseComponent* che implementa alcni metodi di base e utilità.
+
+Inoltre le classi dei componenti possono far uso dei servizi già registrati nel di container tramite la definizione di parameteri nel costruttore 
+
+Esempio
+```javascript
+ class Hue {
+  constructor(eventEmitter, home, messageBus){
+    this.ee = eventEmiiter;
+    ...
+  }
+ }
+```
+Per funzionare correttamente e permetterne la registrazione i componenti devono implementare almeno il metodo **registerInfo()** che torni un oggetto con le chiavi uguali a quello dell'esempio. Valori che poi vengono utilizzati durante la registrazione del componente. (Nota: Renderlo un oggetto piu esplicito). 
+```javascript
+  class Hue extends BaseComponent{
+  ....
+    static registerInfo(){
+      return {
+        id: 'hue', 
+        type: PluginRegistry.typeApplaiance, 
+        name: 'Philips hue', 
+        'icon': '/applaiances/hue.jpg',
+        'short_name': 'Philips Hue'
+       };
+    }
+ ...
+```
+Durante la registrazione del componente inoltre viene chiamato anche il metodo  **registerService** automaticamente. In questo metodo è necessario specificare i servizi che il modulo esporta nella forma di hash con arrow function (in modo da mantenere il contesto)... *NOTA: se troviamo un modo migliore è meglio*.
+
+Esempio:
+```javascript
+  registerServices(){
+    return {
+      set_scene: (param) => {this.setSceneExample(param) },
+      delete_scene: (param) => { this.deleteScene(param) }
+    }
+  }
+
+```
+I componenti al boot vengono solo registrati e non installati. L'installazione avviene su richiesta.
+
+Al moemnto dell'installazione, viene richiamato automaticamente il metodo *install()* che si dovrebbe occupare di creare i devices e registrarli nella classe Home e di avviare funzioni accessorie dipendenti del componente.
+
+Esempio:
+```javascript
+...
+install(){
+  for( let device_data of bridge.discovery()){
+    this.home.registerDevice(new Device(device_data));
+  }
+  this.registerListeners();
+}
+...
+```
+
+
+
+
+
 #  DA CAPIRE PER FINIRE LA BASE
 - [ ]  Un sistema decente che permetta di caricare i moduli delle applaiances dinamicamente. (qualcosa che carichi tutti i file della dir x ?)
 - [ ] Una soluzione che permetta in modo almeno funzionante e decente, di far definire ai moduli applaiances dei *servizi* (*o eventi??*) che è possibile usare, che corrispondono a delle azioni che il modulo mette a disposizione. Di questa parte non sono molto sicuro.. è corretto che i plugin mettano a disposizione delle azioni o le azioni sui device devono ben essere definite a priori (tipo documentate) ????? oppure deve essere tutto ad eventi ??   **E come fa un servizio qualsiasi a sapere che quella "hue.activate_scene" corrisponse all'azione setScene(scene_id) del servizio registrato come 'hue'?**
