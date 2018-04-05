@@ -79,8 +79,7 @@ Ad Esempio:
 
 Al cambiamento di stato di un device di tipo *light* con realm *Hue*
 
-Il device dovrebbe lanciare un evento (se ereditato da uno dei device base con una macchina a stati predefinita è già cosi) 
-
+L'home lancia un evento
 ***'DeviceStateChangeEvent'***  sul message bus. 
 **(NOTA: E' possibile utilizzare delle classi per comodità nella generazione degli eventi ma non necessario)**
 **(NOTA: Vanno quindi definiti a priori in qualche doc ve??)**
@@ -105,7 +104,7 @@ Se il componente hue (in polling) si accorgesse che lo stato di una lampada è c
 
 Il componente home , già in ascolto su eventi predefiniti, recupererà il messaggio e il device appropiato ed eseguirà il cambiamento di stato. 
 
-**NOTA: Ma a sto punto se fa tutto home non è meglio ? Mesa de si ..evitiamo pure che si riscateni evento deviceChanged... **
+**NOTA:MA se fosse il device stesso a lanciare l'evento del cambio di stato ? Ma poi come si fa ad evitare che su richiesta di cambio di stato si rilanci l'evento di cambio di stato del device entrando in loop??**
 
 Gli eventi sono oggetti definiti in
  *system/events.mjs*
