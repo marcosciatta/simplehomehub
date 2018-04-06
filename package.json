@@ -26,6 +26,7 @@
   "dependencies": {
     "awilix": "3.0.6",
     "body-parser": "1.18.2",
+    "deep-equal": "1.0.1",
     "express": "4.16.3",
     "glob": "7.1.2",
     "hooks": "0.3.2",
@@ -36,6 +37,7 @@
     "loadash": "1.0.0",
     "lodash": "4.17.5",
     "morgan": "1.9.0",
+    "observable-slim": "0.0.1",
     "postal": "2.0.5",
     "postal.request-response": "0.3.1",
     "react": "16.3.0",

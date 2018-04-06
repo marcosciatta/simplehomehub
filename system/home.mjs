@@ -1,5 +1,6 @@
 import {DeviceGenericEvent,DeviceStateChangedEvent} from './events';
-
+import { deviceStateTraker } from './utils/deviceProxy';
+import ObservableSlim  from 'observable-slim';
 class Home {
   constructor({logger,messagebus}){
       this.devices = new Map;
@@ -16,6 +17,9 @@ class Home {
   addDevice(id,device){
     this.logger.debug('Added device ['+id+']');
 
+    if(this.devices.has(id)){
+      this.updateDevice(id,this.devices.get(id),device.toData());
+    }
     this.devices.set(id,device);
 
     let evt = new DeviceGenericEvent(
@@ -25,6 +29,16 @@ class Home {
       device.toData()
     );
     this.messagebus.publish(evt);
+  }
+
+  updateDevice(id,device,data){
+    this.logger.debug(`update device id  ${id}`);
+    let proxed = deviceStateTraker(device,(obj,prop,oldVal,newVal,changes) => {
+      this.logger.debug(JSON.stringify(changes));
+    });
+
+    proxed.updateFromNewDeviceData(data);
+    console.log(device.toData());
   }
 
   getDevice(id){

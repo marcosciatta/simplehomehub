@@ -33,6 +33,12 @@ class Hue extends BaseComponent {
     }
   }
 
+
+  pullData(){
+    let device = new Light('light001',realm,'on',Object.entries({intencity: 40}),Object.entries({macaddress:123}));
+    this.home.addDevice('light001',device);
+  }
+
   registerListeners()
   {
     this.messagebus.subscribe({

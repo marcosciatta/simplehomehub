@@ -4,6 +4,7 @@ import systemCfg from './system.config';
 import { Logger } from './system/logger';
 import container from './system/dicontainer';
 import {DeviceStateChangeEvent} from './system/events';
+import deepEqual from 'deep-equal';
 
 let logger = new Logger('system');
 let componentRegistry = container.resolve('componentRegistry');
@@ -38,6 +39,11 @@ glob('./components/*/*.*js',function(er,files){
         messagebus.publish(new DeviceStateChangeEvent(light.identity,'home','off'));
         logger.debug('Light state is '+ light.getCurrentState());
 
+
+        console.log();
+        logger.info('Waiting from pull from hue compoent');
+        console.log();
+        hue.pullData();
 
     }).catch((error) => {
       console.log(error);

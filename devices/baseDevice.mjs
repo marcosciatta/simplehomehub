@@ -43,6 +43,16 @@ class BaseDevice {
     return undefined;
   }
 
+
+
+  updateFromNewDeviceData(data){
+    if(this.identity == data.identity){
+      this.attributes = new Map(data.attributes);
+      this.data = data.data;
+
+    }
+  }
+
   toData(){
     return {
       identity: this.identity,
