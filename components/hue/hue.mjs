@@ -17,9 +17,6 @@ class Hue extends BaseComponent {
     this.home = home;
 
     this.logger = new logger('Hue');
-    this.logger.debug('Start component');
-    this.logger.debug('Register listeners');
-    this.registerListeners();
   }
 
   static registerInfo(){
@@ -33,9 +30,16 @@ class Hue extends BaseComponent {
     }
   }
 
+  /* Moving to this best way!!
+  exposedFunction(){
+    let exposed =  new Map()
+    exposed.set('set_scene','setSceneExample');
+    return exposed;
+  }*/
+
 
   pullData(){
-    let device = new Light('light001',realm,'on',Object.entries({intencity: 40}),Object.entries({macaddress:123}));
+    let device = new Light('light001',realm,'on',Object.entries({intencity: 40}),{macaddress:1});
     this.home.addDevice('light001',device);
   }
 
@@ -53,8 +57,12 @@ class Hue extends BaseComponent {
 
   install(){
     this.logger.debug('Install component...');
+    this.logger.debug('Start component');
+    this.logger.debug('Register listeners');
+    this.registerListeners();
+
     this.logger.debug('Creating one light device on realm ['+ realm+']');
-    let device = new Light('light001',realm,'off',Object.entries({intencity: 20}),Object.entries({macaddress:123}));
+    let device = new Light('light001',realm,'off',Object.entries({intencity: 20}),{macaddress:123});
     this.home.addDevice('light001',device);
   }
 
@@ -75,7 +83,6 @@ class Hue extends BaseComponent {
 
   setSceneExample(param)
   {
-
     this.logger.info('In component service');
     this.logger.debug(param);
     this.logger.debug('With arrow function works!!!');

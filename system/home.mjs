@@ -1,11 +1,14 @@
 import {DeviceGenericEvent,DeviceStateChangedEvent} from './events';
 import { deviceStateTraker } from './utils/deviceProxy';
 import ObservableSlim  from 'observable-slim';
+import _ from 'lodash';
+
 class Home {
-  constructor({logger,messagebus}){
+  constructor({logger,messagebus,componentRegistry}){
       this.devices = new Map;
       this.messagebus = messagebus;
       this.logger = new logger('Home');
+      this.componentRegistry = componentRegistry;
 
       this.messagebus.subscribe({
             channel: 'home',
@@ -64,6 +67,21 @@ class Home {
       device.setState(data.operation);
       this.messagebus.publish(evt);
     }
+  }
+
+
+  doAction(action,param = {test:'ciao'}){
+    let [realm, call]=  _.split(action,'.');
+    let component = this.componentRegistry.getComponent(realm);
+    //let funcs = component.exposedFunction();
+    /*console.log('exposed');
+    console.log(funcs);
+    let f = funcs.get('set_scene');
+    console.log(f);
+    component[f](param); */
+    let actions = this.componentRegistry.getActionsFromComponent(realm);
+    Reflect.apply(Reflect.get(actions,call),component,[param]);
+
   }
 }
 

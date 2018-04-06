@@ -30,15 +30,15 @@ class ComponentRegistry{
     container.register({
       [name]: asClass(comp).singleton()
     });
-    //let instance = container.build(comp);
-    let instance = comp;
+    let instance = container.resolve([name]);
+    //let instance = comp;
     this.componentsMap.set(name,comp.registerInfo());
-    if(typeof instance.registerServices == 'function'){
-        let services = _.keys(instance.registerServices());
-        this.logger.debug('Register services provided by ['+name +']');
-        this.logger.debug(services);
-        this.actionsMap.set(name,services);
-    }
+
+    let services =instance.registerServices();
+    this.logger.debug('Register services provided by ['+name +']');
+    this.logger.debug(`Register action on ${name}: ${JSON.stringify(services)}`);
+    this.actionsMap.set(name,services);
+
   }
 
   getComponent(name){
@@ -49,6 +49,14 @@ class ComponentRegistry{
     if(type != '' || type != undefined){
       return(_.filter(Array.from(this.componentsMap.values()),{'type':'applaiance'}));
     } else return Array.from(this.componentsMap.values());
+  }
+
+  getActions(){
+    return this.actionsMap;
+  }
+
+  getActionsFromComponent(name){
+    return this.actionsMap.get(name);
   }
 
 

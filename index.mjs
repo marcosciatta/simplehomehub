@@ -45,6 +45,12 @@ glob('./components/*/*.*js',function(er,files){
         console.log();
         hue.pullData();
 
+
+        logger.debug('Get all available actions for componentRegistry');
+        logger.debug(JSON.stringify(Array.from(componentRegistry.getActions())))
+        logger.debug('Try to call action pragmatically');
+        home.doAction('hue.set_scene',{scene_id: 1,prova:'test'});
+
     }).catch((error) => {
       console.log(error);
     });

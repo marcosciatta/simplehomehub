@@ -8,7 +8,7 @@ class MessageBus {
 
   publish(eventObject){
     this.logger.debug('Publish message');
-    this.logger.debug({channel:eventObject.channel,topic: eventObject.topic, data: eventObject.data});
+    this.logger.debug({channel:eventObject.channel,topic: eventObject.topic, data: JSON.stringify(eventObject.data)});
     this.postal.publish({channel:eventObject.channel,topic: eventObject.topic, data: eventObject.data});
   }
 

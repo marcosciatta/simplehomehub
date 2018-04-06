@@ -9,7 +9,7 @@ class BaseDevice {
     this.container = container;
     this.machine = new StateMachine({});
     this.attributes = new Map(attributes);
-    this.data = {};
+    this.data = data;
   }
 
   getAvailableStates(){
