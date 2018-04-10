@@ -25,7 +25,7 @@ glob('./components/*/*.*js',function(er,files){
         logger.info('Install Hue component');
         let hue = componentRegistry.getComponent('hue');
         hue.install();
-
+        /*
         logger.info('Turn on hue light explicit');
         let home = container.resolve('home');
         let light = home.getDevice('light001');
@@ -49,7 +49,7 @@ glob('./components/*/*.*js',function(er,files){
         logger.debug('Get all available actions for componentRegistry');
         logger.debug(JSON.stringify(Array.from(componentRegistry.getActions())))
         logger.debug('Try to call action pragmatically');
-        home.doAction('hue.set_scene',{scene_id: 1,prova:'test'});
+        home.doAction('hue.set_scene',{scene_id: 1,prova:'test'});*/
 
     }).catch((error) => {
       console.log(error);
