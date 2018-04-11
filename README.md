@@ -1,4 +1,36 @@
-# Update 1.0.1
+# Update 1.0.2
+
+# Api
+## Components 
+Lista dei componenti disponibili
+```
+GET /api/components
+```
+
+```
+[
+    {
+        "id": "hue",
+        "type": "applaiance",
+        "name": "Philips hue",
+        "icon": "/applaiances/hue.jpg",
+        "short_name": "Philips Hue"
+    }
+]
+```
+
+Installazione di un componente
+```
+GET /api/components/{component_id}/install
+```
+
+```
+"Installation launched. See debug console for required operations"
+```
+
+**Nota: Alcuni componenti richiedono l'intervento dell'utente per proseguire con l'installazione. come ad esempio le hue. Dato che manca interfaccia grafica, fare attenzione ai messaggi della console**
+
+
 
 Example Flow
 ```sh
