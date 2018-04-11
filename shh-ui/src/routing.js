@@ -10,6 +10,8 @@ const BasicExample = () => (
           <Link to="/">Home</Link>
         </li>
         <li>
+            <Link to="/components">Components</Link>
+        <li>
           <Link to="/about">About</Link>
         </li>
         <li>

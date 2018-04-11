@@ -52,6 +52,12 @@ class Home {
     return false;
   }
 
+  getDevices(){
+    this.logger.debug('get devices');
+    console.log(this.devices.values());
+    return this.devices.values();
+  }
+
   changeDeviceStateTo(data, envelope) {
     this.logger.debug('Change state to device ['+data.identity +'] to '+ data.operation);
     if(data.identity){

@@ -2,18 +2,14 @@ import huejay from 'huejay';
 import BaseComponent from '../../system/baseComponent';
 import  ComponentRegistry from '../../system/componentRegistry';
 import Light from '../../devices/light';
-import readline from 'readline'
-
+import readline from 'readline';
 
 const realm = 'hue';
-const deviceType = 'shh';
-
+const deviceType = 'shh1';
 const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-})
-
-
+    input: process.stdin,
+    output: process.stdout
+});
 
 class Hue extends BaseComponent {
 
@@ -21,12 +17,12 @@ class Hue extends BaseComponent {
     return realm;
   }
 
-  constructor({messagebus,logger,componentRegistry,home}){
-    super();
-    this.messagebus = messagebus;
-    this.home = home;
+  constructor({messagebus,logger,componentRegistry,home,store}){
+    super(messagebus,home,store);
+
     this.logger = new logger('Hue');
-    this.bridge = undefined;
+    this.bridge_ip = this.getStoreValue('hue_bridge_ip');
+    this.hue_username = this.getStoreValue('hue_username');
   }
 
   static registerInfo(){
@@ -65,67 +61,78 @@ class Hue extends BaseComponent {
     });
   }
 
+
   async install(){
+
     this.logger.debug('Install component...');
-    this.logger.debug('Start component');
 
-    let bridge =await this.discovery();
-    this.logger.debug(`Found bridge ${bridge.ip}`);
+    let bridge_user = await this.getStoreValue('hue_username');
+    let bridge_ip = await this.getStoreValue('hue_bridge_ip');
 
-    this.bridge = bridge;
+    if(null == bridge_ip || bridge_ip == undefined){
+        let bridge = await this.discovery();
+        this.logger.debug(`Found bridge ${bridge.ip}`);
+        this.setStoreValue('hue_bridge_ip',bridge.ip);
+        bridge_ip = bridge.ip;
 
-    let client = new huejay.Client({
-      host:    bridge.ip,
-      username: 'suhL9adfkVqJ4J6Al0tLxTcAPefnuq2aroUs2Lj2'
-    });
-    await this.waitUserConfirm();
-    //let user = await this.createUser(client);
-    //console.log(user);
+
+    }
+    let bridge_options ={};
+    bridge_options.host = bridge_ip;
+
+    if(bridge_user != undefined || bridge_user != null){
+      bridge_options.username = bridge_user;
+    }
+
+    this.logger.debug(`using options ${JSON.stringify(bridge_options)}`);
+
+    let client = new huejay.Client(bridge_options);
+
+    if(bridge_user == undefined || bridge_user == null) {
+      await this.waitUserConfirm();
+      let user = await this.createUser(client);
+      this.setStoreValue('hue_username','LK8Eq-ce7zIJdZpUOfQBcu5jSnJr7kfGUGTDnKKy');
+    }
+
     let authenticatedUser = await this.getUser(client);
-    console.log(authenticatedUser);
 
     this.logger.debug('Registring lights');
     this.registerLights(client);
-    /*this.logger.debug('Register listeners');
-    this.registerListeners();
-
-    this.logger.debug('Creating one light device on realm ['+ realm+']');
-    let device = new Light('light001',realm,'off',Object.entries({intencity: 20}),{macaddress:123});
-    this.home.addDevice('light001',device); */
   }
 
 
   registerLights(client){
-    client.lights.getAll()
-  .then(lights => {
-    for (let light of lights) {
-      console.log(`Light [${light.id}]: ${light.name}`);
-      console.log(`  Type:             ${light.type}`);
-      console.log(`  Unique ID:        ${light.uniqueId}`);
-      console.log(`  Manufacturer:     ${light.manufacturer}`);
-      console.log(`  Model Id:         ${light.modelId}`);
-      console.log('  Model:');
-      console.log(`    Id:             ${light.model.id}`);
-      console.log(`    Manufacturer:   ${light.model.manufacturer}`);
-      console.log(`    Name:           ${light.model.name}`);
-      console.log(`    Type:           ${light.model.type}`);
-      console.log(`    Color Gamut:    ${light.model.colorGamut}`);
-      console.log(`    Friends of Hue: ${light.model.friendsOfHue}`);
-      console.log(`  Software Version: ${light.softwareVersion}`);
-      console.log('  State:');
-      console.log(`    On:         ${light.on}`);
-      console.log(`    Reachable:  ${light.reachable}`);
-      console.log(`    Brightness: ${light.brightness}`);
-      console.log(`    Color mode: ${light.colorMode}`);
-      console.log(`    Hue:        ${light.hue}`);
-      console.log(`    Saturation: ${light.saturation}`);
-//      console.log(`    X/Y:        ${light.xy[0]}, ${light.xy[1]}`);
-      console.log(`    Color Temp: ${light.colorTemp}`);
-      console.log(`    Alert:      ${light.alert}`);
-      console.log(`    Effect:     ${light.effect}`);
-      console.log();
-    }
-  });
+      client.lights.getAll()
+          .then(lights => {
+              for (let light of lights) {
+              let identity = realm + light.uniqueId;
+
+              let extras = {
+                manufacturer: light.manufacturer,
+                modelId: light.modelId,
+                model: light.model,
+                software_version: light.softwareVersion
+              }
+
+              let attributes = {
+                  id: light.id,
+                  type: light.type,
+                  name: light.name,
+                  reachable: light.reachable,
+                  brightness: light.brightness,
+                  colorMode: light.colorMode,
+                  hue: light.hue,
+                  saturation: light.saturation,
+                  colorTemp: light.colorTemp,
+                  alert: light.alert,
+                  effect: light.effect
+              };
+
+              let state = (light.on)  ? 'on' : 'off';
+              let homelight = new Light(identity,realm,state,attributes,extras);
+              this.home.addDevice(identity,homelight);
+            }
+          });
   }
 
 

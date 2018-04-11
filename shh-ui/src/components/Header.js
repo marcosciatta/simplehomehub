@@ -15,6 +15,7 @@ const Header = () => (
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <NavLink activeOnlyWhenExact={true} to="/" label="Home Control"/>
+          <NavLink to="/components" label="Components"/>
           <NavLink to="/test" label="About"/>
         </ul>
       </div>

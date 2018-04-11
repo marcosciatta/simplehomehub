@@ -5,6 +5,7 @@ import MessageBus from './messagebus.mjs';
 import ComponentRegistry from './componentRegistry.mjs';
 import Home from './home.mjs';
 import postal from 'postal';
+
 const asClass = awilix.asClass;
 const asValue = awilix.asValue;
 const asFunction = awilix.asFunction;

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon  --experimental-modules index.mjs",
+    "start": "nodemon  --experimental-modules --inspect index.mjs",
     "dev": "concurrently --kill-others-on-fail \"nodemon --experimental-modules index.mjs\" \"cd shh-ui && npm start\" \"cd ..\""
   },
   "repository": {
@@ -15,7 +15,11 @@
   "config": {
     "NODE_ENV": "dev",
     "APP_PORT": "3000",
-    "LOG_LEVEL": "debug"
+    "LOG_LEVEL": "debug",
+    "MONGO_URI": "mongodb://admin:Th3m4db0xM0ng0@192.168.99.100:27017/shh?authMechanism=SCRAM-SHA-1&authSource=admin",
+    "MONGO_PORT": "27017",
+    "MONGOOSE_DEBUG": "true",
+    "REDIS_URI": "redis://redis.dev"
   },
   "author": "",
   "license": "ISC",
@@ -36,12 +40,14 @@
     "json-rules-engine": "2.1.0",
     "loadash": "1.0.0",
     "lodash": "4.17.5",
+    "mongoose": "5.0.14",
     "morgan": "1.9.0",
     "observable-slim": "0.0.1",
     "postal": "2.0.5",
     "postal.request-response": "0.3.1",
     "react": "16.3.0",
     "react-dom": "16.3.0",
+    "redis": "2.8.0",
     "winston": "2.4.1"
   },
   "devDependencies": {

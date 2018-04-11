@@ -1,15 +1,24 @@
-import React from 'react'
+import React, { Component } from 'react';
+
 import DeviceList from './DeviceList'
 
-const Home = () => (
-  <div className="row">
-    <div className="col-md-12 m-0 p-0">
-      <div className="d-block p-2 bg-light text-white text-right">
-        <button type="button" className="btn btn-success">Add New Devices</button>
-      </div>
-    </div>
-    <DeviceList/>
-  </div>
-)
+export default class Home extends Component {
 
-export default Home
+    constructor(props) {
+        super(props);
+        this.state = {
+        };
+    }
+
+
+    render() {
+        return <div className="row">
+            <div className="col-md-12 m-0 p-0">
+                <div className="d-block p-2 bg-light text-white text-right">
+                </div>
+            </div>
+            <DeviceList/>
+        </div>
+    }
+}
+
