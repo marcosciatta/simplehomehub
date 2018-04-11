@@ -1,5 +1,12 @@
 # Update 1.0.3
 
+# Requisiti
+
+-  **Node 9.0**
+-  **Mongodb installato e configurato correttamente**
+*viene usato per mantere informazioni accessorie, come ad esempio i plugin installati, configurazioni ecc..*
+-  Redis installato e configurato correttamente 
+*viene utilizzato come servizio iniettabile per i componenti. Ad esempio l'hue stora li l'id del bridge e l'utente registrato*
 
 # Api
 ## Components 
