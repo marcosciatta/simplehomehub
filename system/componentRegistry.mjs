@@ -3,6 +3,8 @@ import container from '../system/dicontainer';
 import InjectionMode from 'awilix';
 import awilix from 'awilix';
 import componentModel from '../models/components';
+import { SystemEvent } from './events';
+
 
 const asClass = awilix.asClass;
 const asValue = awilix.asValue;
@@ -15,6 +17,7 @@ class ComponentRegistry{
     this.componentsMap = new Map;
     let logger = services.logger;
     this.logger = new logger('pluginRegistry');
+    this.messagebus = services.messagebus;
     this.actionsMap = new Map();
   }
 
@@ -26,12 +29,13 @@ class ComponentRegistry{
     return typeService;
   }
 
-  registerPlugin(name,comp){
+  registerComponent(name,comp){
     this.logger.debug('Register plugin ['+name+']');
 
     container.register({
       [name]: asClass(comp).singleton()
     });
+
     let instance = container.resolve([name]);
 
     let component_info = comp.registerInfo();
@@ -46,25 +50,18 @@ class ComponentRegistry{
     componentModel.findOneAndUpdate({'id': component_info.id},component_info,{new: true, upsert: true, setDefaultsOnInsert: true})
         .then((doc,err) => {
           this.logger.debug(`Update information on plugin ${doc.id}`);
+          return doc;
         })
-  }
-
-  getComponent(name){
-    return container.resolve(name);
-  }
-
-  getComponents(type){
-    if(type != '' || type != undefined){
-      return(_.filter(Array.from(this.componentsMap.values()),{'type':'applaiance'}));
-    } else return Array.from(this.componentsMap.values());
-  }
-
-  getActions(){
-    return this.actionsMap;
-  }
-
-  getActionsFromComponent(name){
-    return this.actionsMap.get(name);
+        .then((doc) => {
+          this.messagebus.publish(new SystemEvent('component.registered',doc));
+          return doc;
+        })
+        .then((doc) => {
+          if(doc.installed){
+              this.logger.info('Start component');
+              instance.start();
+          }
+        });
   }
 
   installComponent(name){
@@ -77,11 +74,33 @@ class ComponentRegistry{
         .then((response) => {
           this.logger.info(`Component ${name} installed!`);
         })
+        .then((response) => {
+            this.messagebus.publish(new SystemEvent('component.installed',{'component_name': name} ));
+        })
         .catch((error) =>{
           this.logger.error('Error in component installation!');
           console.log(error);
         });
   }
+
+
+    getComponent(name){
+        return container.resolve(name);
+    }
+
+    getComponents(type){
+        if(type != '' || type != undefined){
+            return(_.filter(Array.from(this.componentsMap.values()),{'type':'applaiance'}));
+        } else return Array.from(this.componentsMap.values());
+    }
+
+    getActions(){
+        return this.actionsMap;
+    }
+
+    getActionsFromComponent(name){
+        return this.actionsMap.get(name);
+    }
 
 }
 

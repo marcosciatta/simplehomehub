@@ -4,7 +4,7 @@ class Switch extends switchableDevice {
 
   constructor(identity,defaultState = 'on'){
     super(identity,defaultState);
-    console.log('bulb created');
+    this.type = 'switch';
   }
 }
 

@@ -49,7 +49,7 @@ glob('./components/*/*.*js', function (er, files) {
         import(file)
             .then(obj => {
                 logger.debug('Load plugin [' + obj.default.registerInfo().id + ']');
-                componentRegistry.registerPlugin(obj.default.registerInfo().id, obj.default);
+                componentRegistry.registerComponent(obj.default.registerInfo().id, obj.default);
             })
             .catch((error) => {
                 console.log(error);

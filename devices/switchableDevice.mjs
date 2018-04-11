@@ -5,8 +5,8 @@ import { DeviceStateChangedEvent } from '../system/events.mjs';
 
 class SwitchableDevice extends baseDevice {
 
-  constructor(identity,realm,defaultState = 'on',attributes = {},data){
-    super(identity,realm,attributes,data);
+  constructor(identity,name,realm,defaultState = 'on',attributes = {},data){
+    super(identity,name,realm,attributes,data);
 
     this.machine = new StateMachine({
       init: this.defaultState,

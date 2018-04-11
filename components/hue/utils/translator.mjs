@@ -1,11 +1,13 @@
-import Light from '../../../devices/light';
+import RgbLight from '../../../devices/rgblight.mjs';
 
 class LightTranslator {
 
     static hueLightToDevice(light,realm) {
-        let identity = realm + light.uniqueId;
 
-        let extras = {
+        let identity = light.uniqueId;
+        let name = light.name;
+
+        let data = {
             manufacturer: light.manufacturer,
             modelId: light.modelId,
             model: light.model,
@@ -26,8 +28,16 @@ class LightTranslator {
             effect: light.effect
         };
 
+        let color_state = {
+            brightness: light.brightness,
+            colorMode: light.colorMode,
+            hue: light.hue,
+            saturation: light.saturation,
+            colorTemp: light.colorTemp,
+        };
+
         let state = (light.on)  ? 'on' : 'off';
-       return new Light(identity,realm,state,attributes,extras);
+        return new RgbLight(identity,name,realm,state,attributes,color_state,data);
     }
 }
 

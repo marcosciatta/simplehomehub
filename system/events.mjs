@@ -39,7 +39,7 @@ class DeviceStateChangeEvent{
 }
 
 class SystemEvent{
-  constructor(identity,topic,data ={}){
+  constructor(topic,data ={}){
     this.channel = 'system';
     this.topic = topic;
     this.data = data;

@@ -3,12 +3,25 @@ import container from '../system/dicontainer';
 
 class BaseDevice {
 
-  constructor(identity,realm,attributes = {},data){
+  constructor(identity,name,realm,attributes = {},data){
     this.realm = realm;
+    this.name = name;
     this.identity = identity;
     this.machine = new StateMachine({});
     this.attributes = new Map();
+    this.type = 'Unknown device';
+
+    Object.keys(attributes).forEach(key => {
+        this.attributes.set(key, attributes[key]);
+    });
+    console.log('DEVICE');
+    console.log(data);
     this.data = data;
+    this.av = true;
+  }
+
+  setAvailability(av){
+    this.av = av;
   }
 
   getAvailableStates(){
@@ -53,12 +66,17 @@ class BaseDevice {
   }
 
   toData(){
-    return {
-      identity: this.identity,
-      state: this.getCurrentState(),
-      attributes: this.attributes,
-      realm: this.realm,
-      data: this.data
+      let attributes = Array.from(this.attributes).reduce((obj, [key, value]) => (
+          Object.assign(obj, { [key]: value })
+      ), {});
+      return {
+        identity: this.identity,
+        realm: this.realm,
+        type: this.type,
+        name: this.name,
+        state: this.getCurrentState(),
+        attributes: attributes,
+        data: this.data,
     }
   }
 

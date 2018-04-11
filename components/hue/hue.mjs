@@ -106,9 +106,9 @@ class Hue extends BaseComponent {
       client.lights.getAll()
         .then(lights => {
             for (let light of lights) {
-            let device = LightTranslator.hueLightToDevice(light,realm);
-            this.home.addDevice(device.identity,device);
-          }
+                let device = LightTranslator.hueLightToDevice(light,realm);
+                this.home.addDevice(device.identity,device);
+            }
         });
   }
 
