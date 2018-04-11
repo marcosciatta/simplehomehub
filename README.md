@@ -1,4 +1,25 @@
-# Update 1.0.1
+# Update 1.0.2
+
+# Api
+## Components 
+Lista dei componenti disponibili
+```
+GET /api/components
+```
+
+```
+[
+    {
+        "id": "hue",
+        "type": "applaiance",
+        "name": "Philips hue",
+        "icon": "/applaiances/hue.jpg",
+        "short_name": "Philips Hue"
+    }
+]
+```
+
+
 
 Example Flow
 ```sh
