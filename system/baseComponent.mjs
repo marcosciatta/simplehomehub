@@ -1,6 +1,6 @@
 class BaseComponent{
 
-  constructor({messagebus,home,store}){
+  constructor(messagebus,home,store){
       this.messagebus = messagebus;
       this.home = home;
       this.store = store;

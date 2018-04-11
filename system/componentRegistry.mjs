@@ -33,13 +33,13 @@ class ComponentRegistry{
       [name]: asClass(comp).singleton()
     });
     let instance = container.resolve([name]);
-    let component_info = comp.registerInfo();
 
-    //let instance = comp;
+    let component_info = comp.registerInfo();
     this.componentsMap.set(name,component_info);
 
     let services =instance.registerServices();
     this.actionsMap.set(name,services);
+
 
     this.logger.debug('Register services provided by ['+name +']');
     this.logger.debug(`Register action on ${name}: ${JSON.stringify(services)}`);

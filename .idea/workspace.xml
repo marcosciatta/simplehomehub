@@ -2,31 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="63a2d67a-147b-4e83-9999-d2445ee2ac0c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/apis/home.mjs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/controllers/componentController.mjs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/models/components.mjs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/shh-ui/src/components/Components.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/system/baseModule.mjs" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/apis/components.mjs" afterPath="$PROJECT_DIR$/apis/components.mjs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/components/hue/utils/bridge.mjs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/components/hue/hue.mjs" afterPath="$PROJECT_DIR$/components/hue/hue.mjs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/devices/baseDevice.mjs" afterPath="$PROJECT_DIR$/devices/baseDevice.mjs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/devices/switchableDevice.mjs" afterPath="$PROJECT_DIR$/devices/switchableDevice.mjs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.mjs" afterPath="$PROJECT_DIR$/index.mjs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shh-ui/package-lock.json" afterPath="$PROJECT_DIR$/shh-ui/package-lock.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shh-ui/package.json" afterPath="$PROJECT_DIR$/shh-ui/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shh-ui/src/components/Header.js" afterPath="$PROJECT_DIR$/shh-ui/src/components/Header.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shh-ui/src/components/Home.js" afterPath="$PROJECT_DIR$/shh-ui/src/components/Home.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shh-ui/src/components/Main.js" afterPath="$PROJECT_DIR$/shh-ui/src/components/Main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shh-ui/src/routing.js" afterPath="$PROJECT_DIR$/shh-ui/src/routing.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system.config.mjs" afterPath="$PROJECT_DIR$/system.config.mjs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/api.mjs" afterPath="$PROJECT_DIR$/system/api.mjs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/baseComponent.mjs" afterPath="$PROJECT_DIR$/system/baseComponent.mjs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/componentRegistry.mjs" afterPath="$PROJECT_DIR$/system/componentRegistry.mjs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/dicontainer.mjs" afterPath="$PROJECT_DIR$/system/dicontainer.mjs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/home.mjs" afterPath="$PROJECT_DIR$/system/home.mjs" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -44,10 +24,44 @@
       <file leaf-file-name="hue.mjs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/components/hue/hue.mjs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="81" column="0" lean-forward="true" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+            <state relative-caret-position="243">
+              <caret line="109" column="47" lean-forward="false" selection-start-line="109" selection-start-column="47" selection-end-line="109" selection-end-column="47" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="translator.mjs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/components/hue/utils/translator.mjs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="21" column="27" lean-forward="true" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bridge.mjs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/components/hue/utils/bridge.mjs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="15" lean-forward="false" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="componentRegistry.mjs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/componentRegistry.mjs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="630">
+              <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#23#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -56,8 +70,8 @@
       <file leaf-file-name="baseComponent.mjs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/system/baseComponent.mjs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="21" lean-forward="true" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
+            <state relative-caret-position="63">
+              <caret line="17" column="14" lean-forward="true" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -101,8 +115,10 @@
         <option value="$PROJECT_DIR$/apis/home.mjs" />
         <option value="$PROJECT_DIR$/models/components.mjs" />
         <option value="$PROJECT_DIR$/system/componentRegistry.mjs" />
-        <option value="$PROJECT_DIR$/system/baseComponent.mjs" />
         <option value="$PROJECT_DIR$/components/hue/utils/installer.mjs" />
+        <option value="$PROJECT_DIR$/components/hue/utils/bridge.mjs" />
+        <option value="$PROJECT_DIR$/system/baseComponent.mjs" />
+        <option value="$PROJECT_DIR$/components/hue/utils/translator.mjs" />
         <option value="$PROJECT_DIR$/components/hue/hue.mjs" />
       </list>
     </option>
@@ -246,6 +262,28 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hue" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utils" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="simplehomehub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="simplehomehub" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="apis" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
@@ -336,16 +374,16 @@
       <option name="presentableId" value="Default" />
       <updated>1523380324079</updated>
       <workItem from="1523380325368" duration="7017000" />
-      <workItem from="1523465738266" duration="14167000" />
+      <workItem from="1523465738266" duration="15655000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21184000" />
+    <option name="totallyTimeSpent" value="22672000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="831" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2532189" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -354,7 +392,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32882273" sideWeight="0.49713877" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32882273" sideWeight="0.49713877" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -684,16 +722,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/componentRegistry.mjs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="11" column="24" lean-forward="true" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/components.mjs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -738,26 +766,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/system/componentRegistry.mjs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/components/hue/utils/bridge.mjs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="15" lean-forward="false" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/system/baseComponent.mjs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="21" lean-forward="true" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
+        <state relative-caret-position="63">
+          <caret line="17" column="14" lean-forward="true" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/components/hue/utils/installer.mjs">
+    <entry file="file://$PROJECT_DIR$/components/hue/utils/translator.mjs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="4" lean-forward="false" selection-start-line="1" selection-start-column="4" selection-end-line="1" selection-end-column="4" />
+        <state relative-caret-position="300">
+          <caret line="21" column="27" lean-forward="true" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/components/hue/hue.mjs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="81" column="0" lean-forward="true" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+        <state relative-caret-position="243">
+          <caret line="109" column="47" lean-forward="false" selection-start-line="109" selection-start-column="47" selection-end-line="109" selection-end-column="47" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
