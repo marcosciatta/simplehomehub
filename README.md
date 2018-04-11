@@ -19,6 +19,17 @@ GET /api/components
 ]
 ```
 
+Installazione di un componente
+```
+GET /api/components/{component_id}/install
+```
+
+```
+"Installation launched. See debug console for required operations"
+```
+
+**Nota: Alcuni componenti richiedono l'intervento dell'utente per proseguire con l'installazione. come ad esempio le hue. Dato che manca interfaccia grafica, fare attenzione ai messaggi della console**
+
 
 
 Example Flow
