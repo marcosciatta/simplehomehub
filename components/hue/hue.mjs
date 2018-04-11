@@ -51,6 +51,7 @@ class Hue extends BaseComponent {
 
       let authenticatedUser = await this.bridge.getUser(this.client);
       this.logger.debug('Registring lights');
+      this.registerListeners();
       this.registerLights(this.client);
   }
 
@@ -97,10 +98,23 @@ class Hue extends BaseComponent {
           topic: 'hue.changed.state',
           callback: (data, envelope) => {
               this.logger.debug('Recived message');
-              this.logger.info('Shutdown lamp');
+              let device = this.home.getDevice(data.identity);
+              let id = device.getAttribute('id');
+              this.client.lights.getById(id).then((light) => {
+                 this.logger.debug(`Found Light [${light.id}]: ${light.name}`);
+                 light.on = (data.to == 'on');
+                 return this.client.lights.save(light);
+              })
+              .then((light) => {
+                 this.logger.debug('Updated light ');
+              })
+              .catch((error) => {
+                  this.logger.error(error);
+              });
           }
       });
   }
+
 
   registerLights(client){
       client.lights.getAll()

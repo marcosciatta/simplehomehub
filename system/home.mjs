@@ -13,7 +13,7 @@ class Home {
       this.messagebus.subscribe({
             channel: 'home',
             topic: 'home.change.state',
-            callback: (data, envelope) => { this.changeDeviceStateTo(data,envelope); }
+            callback: (data, envelope) => { this.changeDeviceStateTo(data.identity,data.operation); }
       });
   }
 
@@ -58,19 +58,19 @@ class Home {
     return this.devices.values();
   }
 
-  changeDeviceStateTo(data, envelope) {
-    this.logger.debug('Change state to device ['+data.identity +'] to '+ data.operation);
-    if(data.identity){
-      let device = this.getDevice(data.identity);
+  changeDeviceStateTo(identity,operation) {
+    this.logger.debug('Change state to device ['+identity +'] to '+ operation);
+    if(identity){
+      let device = this.getDevice(identity);
 
       let evt = new DeviceStateChangedEvent(
         device.identity,
         device.realm,
         device.getCurrentState(),
-        data.operation
+        operation
       );
 
-      device.setState(data.operation);
+      device.setState(operation);
       this.messagebus.publish(evt);
     }
   }

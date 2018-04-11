@@ -1,6 +1,9 @@
 import StateMachine from 'javascript-state-machine';
 import container from '../system/dicontainer';
 
+const com_type_sync = 'SYNC';
+const com_type_async = 'ASYNC';
+
 class BaseDevice {
 
   constructor(identity,name,realm,attributes = {},data){
@@ -10,6 +13,7 @@ class BaseDevice {
     this.machine = new StateMachine({});
     this.attributes = new Map();
     this.type = 'Unknown device';
+    this.com_type = com_type_sync;
 
     Object.keys(attributes).forEach(key => {
         this.attributes.set(key, attributes[key]);

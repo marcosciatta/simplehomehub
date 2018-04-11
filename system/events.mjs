@@ -22,9 +22,8 @@ class DeviceStateChangedEvent{
   constructor(identity,realm,from,to,data = {}){
     this.channel = 'home';
     this.topic = realm+'.changed.state';
-    this.data = {};
-    this.data.identity = identity;
     this.data = _.assign(data,{from: from, to: to});
+    this.data.identity = identity;
     this.data = data;
   }
 }
