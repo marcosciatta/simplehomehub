@@ -1,4 +1,12 @@
-# Update 1.0.2
+# Update 1.0.3
+
+# Requisiti
+
+-  **Node 9.0**
+-  **Mongodb installato e configurato correttamente**
+*viene usato per mantere informazioni accessorie, come ad esempio i plugin installati, configurazioni ecc..*
+-  Redis installato e configurato correttamente 
+*viene utilizzato come servizio iniettabile per i componenti. Ad esempio l'hue stora li l'id del bridge e l'utente registrato*
 
 # Api
 ## Components 
@@ -29,6 +37,66 @@ GET /api/components/{component_id}/install
 ```
 
 **Nota: Alcuni componenti richiedono l'intervento dell'utente per proseguire con l'installazione. come ad esempio le hue. Dato che manca interfaccia grafica, fare attenzione ai messaggi della console**
+**Nota: Una volta che il componente è installato il record è scritto in mongo **
+
+
+Lista e dettaglio dei devices disponibili
+```
+GET /api/home/devices  e GET /api/home/device/{identity}
+```
+
+```
+[
+    {
+        "identity": "xx:xx:xx:xx:xx:xx",
+        "realm": "hue",
+        "type": "rgblight",
+        "name": "Cucina",
+        "state": "off",
+        "attributes": {
+            "id": "1",
+            "type": "Extended color light",
+            "name": "Cucina",
+            "reachable": true,
+            "brightness": 254,
+            "colorMode": "ct",
+            "hue": 14988,
+            "saturation": 141,
+            "colorTemp": 366,
+            "alert": "none",
+            "effect": "none"
+        },
+        "data": {
+            "manufacturer": "Philips",
+            "modelId": "LCT007",
+            "model": {
+                "details": {
+                    "id": "LCT007",
+                    "manufacturer": "Philips",
+                    "name": "Hue bulb A19",
+                    "type": "Extended Color Light",
+                    "colorGamut": "B",
+                    "friendsOfHue": true
+                }
+            },
+            "software_version": "5.105.0.21536"
+        },
+        ...     
+]
+```
+
+Cambiare lo stato di un device
+```
+PATCH api/home/device/{device_identity}/change_state
+```
+```
+{
+	"state": "on"
+}
+```
+```
+"Command sended"
+```
 
 
 
