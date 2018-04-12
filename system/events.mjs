@@ -22,7 +22,13 @@ class DeviceAddedEvent extends DeviceGenericEvent {
         let topic = 'device.added';
         super(identity,topic,realm,data);
     }
+}
 
+class DeviceUpdatedEvent extends DeviceGenericEvent {
+    constructor(identity,realm, data){
+        let topic = 'device.updated';
+        super(identity,topic,realm,data);
+    }
 }
 
 class DeviceChangedStateEvent{
@@ -67,6 +73,7 @@ export {
     GenericEvent,
     DeviceGenericEvent,
     DeviceAddedEvent,
+    DeviceUpdatedEvent,
     DeviceChangedStateEvent,
     DeviceStateChangeEvent,
     SystemEvent,

@@ -18,8 +18,6 @@ class BaseDevice {
     Object.keys(attributes).forEach(key => {
         this.attributes.set(key, attributes[key]);
     });
-    console.log('DEVICE');
-    console.log(data);
     this.data = data;
     this.av = true;
   }
@@ -62,7 +60,6 @@ class BaseDevice {
 
 
   updateFromNewDeviceData(data){
-    console.log(data);
     if(this.identity == data.identity){
       this.attributes = new Map();
       Object.keys(data.attributes).forEach(key => {

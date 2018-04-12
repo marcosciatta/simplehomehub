@@ -35,7 +35,6 @@ router.route('/:id/install').get( async (req,res,next) => {
   let component = false;
 
   if(!componentData) {
-    console.log('error_component_data');
     return res.status(409).json({message: 'component_not_found'});
   }
 

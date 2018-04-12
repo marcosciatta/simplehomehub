@@ -10,8 +10,6 @@ router.route('/devices').get(function(req,res) {
     for ( let device of devices){
         response.push(device.toData());
     }
-    console.log('response to api');
-
     res.json(response);
 });
 

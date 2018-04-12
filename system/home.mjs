@@ -1,4 +1,4 @@
-import {DeviceAddedEvent,DeviceChangedStateEvent} from './events';
+import {DeviceAddedEvent,DeviceUpdatedEvent,DeviceChangedStateEvent} from './events';
 import { deviceStateTraker } from './utils/deviceProxy';
 import ObservableSlim  from 'observable-slim';
 import _ from 'lodash';
@@ -21,8 +21,7 @@ class Home {
     this.logger.debug('Added device ['+id+']');
 
     if(this.devices.has(id)){
-      console.log('UDPATE DEVICE ' + id);
-      this.updateDevice(id,this.devices.get(id),device.toData());
+      return this.updateDevice(id,this.devices.get(id),device.toData());
     }
     this.devices.set(id,device);
 
@@ -37,11 +36,17 @@ class Home {
   updateDevice(id,device,data){
     this.logger.debug(`update device id  ${id}`);
     let proxed = deviceStateTraker(device,(obj,prop,oldVal,newVal,changes) => {
-      this.logger.debug(JSON.stringify(changes));
+      //this.logger.debug(JSON.stringify(changes));
     });
 
     proxed.updateFromNewDeviceData(data);
-    console.log(device.toData());
+
+    let evt = new DeviceUpdatedEvent(
+        device.identity,
+        device.realm,
+        device.toData()
+    );
+    this.messagebus.publish(evt);
   }
 
   getDevice(id){

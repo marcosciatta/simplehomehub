@@ -13,7 +13,7 @@ class Hue extends BaseComponent {
   constructor({messagebus,logger,componentRegistry,home,store}){
     super(messagebus,home,store);
     this.logger = new logger('Hue');
-    this.sync = {type: BaseComponent.syncTime, every: 4};
+    this.sync = {type: BaseComponent.syncNone, every: 4};
 
     this.bridge_ip = this.getStoreValue('hue_bridge_ip');
     this.hue_username = this.getStoreValue('hue_username');
