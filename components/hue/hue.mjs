@@ -12,12 +12,14 @@ class Hue extends BaseComponent {
 
   constructor({messagebus,logger,componentRegistry,home,store}){
     super(messagebus,home,store);
-
     this.logger = new logger('Hue');
+    this.sync = {type: BaseComponent.syncTime, every: 4};
+
     this.bridge_ip = this.getStoreValue('hue_bridge_ip');
     this.hue_username = this.getStoreValue('hue_username');
     this.client = undefined;
     this.bridge = new Bridge(this.logger,deviceType);
+
   }
 
   static get realm(){
@@ -97,23 +99,25 @@ class Hue extends BaseComponent {
   {
       this.messagebus.subscribe({
           channel: 'home',
-          topic: 'hue.changed.state',
-          callback: (data, envelope) => {
-              this.logger.debug('Recived message');
-              let device = this.home.getDevice(data.identity);
-              let id = device.getAttribute('id');
-              this.client.lights.getById(id).then((light) => {
-                 this.logger.debug(`Found Light [${light.id}]: ${light.name}`);
-                 light.on = (data.to == 'on');
-                 return this.client.lights.save(light);
-              })
-              .then((light) => {
-                 this.logger.debug('Updated light ');
-              })
-              .catch((error) => {
-                  this.logger.error(error);
-              });
-          }
+          topic: 'hue.device.changed.state',
+          callback: (data,envelope) => { this.changeDeviceState(data,envelope); }
+      });
+  }
+
+  changeDeviceState(data,envelope){
+      this.logger.debug('Recived message');
+      let device = this.home.getDevice(data.identity);
+      let id = device.getAttribute('id');
+      this.client.lights.getById(id).then((light) => {
+          this.logger.debug(`Found Light [${light.id}]: ${light.name}`);
+          light.on = (data.to == 'on');
+          return this.client.lights.save(light);
+      })
+      .then((light) => {
+          this.logger.debug('Updated light ');
+      })
+      .catch((error) => {
+          this.logger.error(error);
       });
   }
 
@@ -126,6 +130,11 @@ class Hue extends BaseComponent {
                 this.home.addDevice(device.identity,device);
             }
         });
+  }
+
+  resync(){
+    this.logger.debug('sync');
+    this.registerLights(this.client);
   }
 
   setSceneExample(param)

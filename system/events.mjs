@@ -17,11 +17,19 @@ class DeviceGenericEvent{
   }
 }
 
-class DeviceStateChangedEvent{
+class DeviceAddedEvent extends DeviceGenericEvent {
+    constructor(identity,realm, data){
+        let topic = 'device.added';
+        super(identity,topic,realm,data);
+    }
+
+}
+
+class DeviceChangedStateEvent{
 
   constructor(identity,realm,from,to,data = {}){
     this.channel = 'home';
-    this.topic = realm+'.changed.state';
+    this.topic = realm+'.device.changed.state';
     this.data = _.assign(data,{from: from, to: to});
     this.data.identity = identity;
     this.data = data;
@@ -46,18 +54,20 @@ class SystemEvent{
 }
 
 class TimeEvent {
-  constructor(identity,topic, data = {})
+  constructor()
   {
     this.channel = 'time';
-    this.topic =topic;
-    tis.data = data;
+    this.topic = 'time.changed';
+    this.data = {time: Date.now()}
   }
 };
+
 
 export {
     GenericEvent,
     DeviceGenericEvent,
-    DeviceStateChangedEvent,
+    DeviceAddedEvent,
+    DeviceChangedStateEvent,
     DeviceStateChangeEvent,
     SystemEvent,
     TimeEvent,

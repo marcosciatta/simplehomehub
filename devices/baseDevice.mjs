@@ -62,10 +62,14 @@ class BaseDevice {
 
 
   updateFromNewDeviceData(data){
+    console.log(data);
     if(this.identity == data.identity){
-      this.attributes = new Map(data.attributes);
+      this.attributes = new Map();
+      Object.keys(data.attributes).forEach(key => {
+          this.attributes.set(key, data.attributes[key]);
+      });
       this.data = data.data;
-
+      this.name = data.name;
     }
   }
 

@@ -1,7 +1,6 @@
 import baseDevice from './baseDevice'
 import StateMachine from 'javascript-state-machine';
 import container from '../system/dicontainer';
-import { DeviceStateChangedEvent } from '../system/events.mjs';
 
 class SwitchableDevice extends baseDevice {
 

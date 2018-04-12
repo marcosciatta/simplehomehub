@@ -4,6 +4,7 @@ import {Logger} from './system/logger';
 import container from './system/dicontainer';
 import systemConfig from './system.config';
 import {start_application} from "./system/api";
+import Time from './system/time';
 import mongoose from 'mongoose';
 import util from 'util';
 import redis from 'redis';
@@ -56,6 +57,10 @@ glob('./components/*/*.*js', function (er, files) {
             });
     });
 });
+
+
+logger.info('Initializing timer...');
+let timer = new Time();
 
 
 start_application();
