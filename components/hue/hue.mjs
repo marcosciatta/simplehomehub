@@ -35,6 +35,8 @@ class Hue extends BaseComponent {
   }
 
   async start(){
+      this.logger.debug('Start hue component...');
+
       let bridge_user = await this.getStoreValue('hue_username');
       let bridge_ip = await this.getStoreValue('hue_bridge_ip');
 
