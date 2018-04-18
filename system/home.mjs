@@ -63,7 +63,6 @@ class Home {
 
     getDevices() {
         this.logger.debug('get devices');
-        console.log(this.devices.values());
         return this.devices.values();
     }
 

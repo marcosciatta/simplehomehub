@@ -1,5 +1,6 @@
 import RgbLight from '../../../devices/rgblight.mjs';
 import DimmableLight from '../../../devices/dimmablelight.mjs';
+import LightGroup from '../../../devices/lightGroup.mjs';
 
 import { cie_to_rgb } from './rgbcie.mjs';
 
@@ -10,13 +11,58 @@ class LightTranslator {
         let identity = light.uniqueId;
         let name = light.name;
 
-        console.log(light);
         if(light.type.toLowerCase() == 'extended color light')
             return this.rgbLight(identity,name,light,realm);
 
         if(light.type.toLowerCase() == 'dimmable light'){
             return this.dimmableLight(identity,name,light,realm);
         }
+
+    }
+
+    static hueGroupToDevice(group,realm){
+        let identity = group.id;
+        let name = group.name;
+
+        let color_state = {
+            brightness: group.brightness,
+            colorMode: group.colorMode,
+            hue: group.hue,
+            saturation: group.saturation,
+            colorTemp: group.colorTemp,
+            xy: group.xy
+        };
+
+        let data = {
+            modelId: group.modelId,
+            uniqueId: group.uniqueId,
+            color_state: color_state,
+            type: group.type,
+            anyOn: group.anyOn,
+            allOn: group.allOn,
+            model: group.model
+        };
+
+        let attributes = {
+            id: group.id,
+            lightIds: group.lightIds,
+            class: group.class,
+            name: group.name,
+            brightness: group.brightness,
+            transitionTime: group.transitionTime,
+            alert: group.alert,
+            effect: group.effect,
+            scene: group.scene
+        };
+        if(color_state.xy != undefined){
+            attributes.color = cie_to_rgb(color_state.xy[0],color_state.xy[1],group.brightness);
+        }
+
+
+        let state = (group.on)  ? 'on' : 'off';
+        let device =  new LightGroup(identity,name,realm,state,attributes,data);
+        device.setComTypeAsync();
+        return device;
 
     }
 

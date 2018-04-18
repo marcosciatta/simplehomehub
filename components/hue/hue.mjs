@@ -58,6 +58,7 @@ class Hue extends BaseComponent {
       this.logger.debug('Registring lights');
       this.registerListeners();
       this.registerLights(this.client);
+      this.registerGroups(this.client);
   }
 
 
@@ -174,6 +175,16 @@ class Hue extends BaseComponent {
                 this.home.addDevice(device.identity,device);
             }
         });
+  }
+
+  registerGroups(client){
+      client.groups.getAll()
+          .then(groups => {
+              for (let group of groups){
+                  let device = LightTranslator.hueGroupToDevice(group, realm);
+                  this.home.addDevice(device.identity,device);
+              }
+          })
   }
 
   resync(){
