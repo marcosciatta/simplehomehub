@@ -1,8 +1,9 @@
 import StateMachine from 'javascript-state-machine';
 import container from '../system/dicontainer';
+import _ from 'lodash';
 
-const com_type_sync = 'SYNC';
-const com_type_async = 'ASYNC';
+const COM_TYPE_SYNC = 'SYNC';
+const COM_TYPE_ASYNC = 'ASYNC';
 
 class BaseDevice {
 
@@ -13,13 +14,31 @@ class BaseDevice {
     this.machine = new StateMachine({});
     this.attributes = new Map();
     this.type = 'Unknown device';
-    this.com_type = com_type_sync;
+    this.com_type = COM_TYPE_SYNC;
 
     Object.keys(attributes).forEach(key => {
         this.attributes.set(key, attributes[key]);
     });
     this.data = data;
     this.av = true;
+  }
+
+  static get COM_TYPE_ASYNC(){
+    return COM_TYPE_ASYNC;
+  }
+
+  static  get COM_TYPE_SYNC(){
+      return COM_TYPE_SYNC;
+  }
+
+  setComTypeAsync()
+  {
+    this.com_type = COM_TYPE_ASYNC;
+  }
+
+  getComType()
+  {
+    return this.com_type;
   }
 
   setAvailability(av){
@@ -55,6 +74,27 @@ class BaseDevice {
       return this.attributes.get(name);
     }
     return undefined;
+  }
+
+  supportAttributes(attributes){
+
+    for (let attribute of _.keys(attributes)){
+      if(!this.attributes.has(attribute)) return false;
+    }
+    return true;
+  }
+
+  setAttributes(attributes){
+    for(let key of Object.keys(attributes)) {
+        this.setAttribute(key, attributes[key]);
+    }
+  }
+
+  setAttribute(attribute,value)
+  {
+    if(this.attributes.has(attribute)){
+      this.attributes.set(attribute,value);
+    }
   }
 
 

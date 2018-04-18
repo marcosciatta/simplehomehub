@@ -12,6 +12,12 @@ class MessageBus {
     this.postal.publish({channel:eventObject.channel,topic: eventObject.topic, data: eventObject.data});
   }
 
+  request(eventObject){
+    this.logger.debug('Request message');
+    this.logger.debug({channel:eventObject.channel,topic: eventObject.topic, data: JSON.stringify(eventObject.data)});
+    this.postal.request({channel:eventObject.channel,topic: eventObject.topic, data: eventObject.data});
+  }
+
   subscribe(channel,topic,callback){
     this.postal.subscribe(channel,topic,callback);
   }

@@ -36,5 +36,17 @@ router.route('/device/:id/change_state').patch(function(req,res){
     res.json('Command sended');
 });
 
+router.route('/device/:id/change_attributes').patch(function(req,res){
+    var identity =req.params.id;
+    var operations = req.body.attributes;
+
+    let home = container.resolve('home');
+    let device = home.getDevice(identity);
+    if(!device){
+        return res.status(404).json({message: 'device not found'});
+    }
+    home.changeDeviceAttributes(identity,operations);
+    res.json('Command sended');
+});
 
 export default router;

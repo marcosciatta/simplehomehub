@@ -51,6 +51,16 @@ class DeviceStateChangeEvent{
   }
 }
 
+class DeviceChangedAttributesEvent
+{
+    constructor(identity,realm,operations,data={}){
+        this.channel = 'home';
+        this.topic = realm+'.device.changed.attributes';
+        this.data = _.assign({operations:operations},data);
+        this.data.identity = identity;
+    }
+}
+
 class SystemEvent{
   constructor(topic,data ={}){
     this.channel = 'system';
@@ -76,6 +86,7 @@ export {
     DeviceUpdatedEvent,
     DeviceChangedStateEvent,
     DeviceStateChangeEvent,
+    DeviceChangedAttributesEvent,
     SystemEvent,
     TimeEvent,
 }

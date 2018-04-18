@@ -3,9 +3,10 @@ import BaseComponent from '../../system/baseComponent';
 import ComponentRegistry from '../../system/componentRegistry';
 import Bridge from './utils/bridge';
 import LightTranslator from './utils/translator';
-
+import _ from 'lodash';
 const realm = 'hue';
 const deviceType = 'shh1';
+import { rgb_to_cie } from './utils/rgbcie.mjs';
 
 
 class Hue extends BaseComponent {
@@ -102,6 +103,13 @@ class Hue extends BaseComponent {
           topic: 'hue.device.changed.state',
           callback: (data,envelope) => { this.changeDeviceState(data,envelope); }
       });
+
+      this.messagebus.subscribe({
+          channel: 'home',
+          topic: 'hue.device.changed.attributes',
+          callback: (data,envelope) => { this.changeDeviceAttribute(data,envelope); }
+      });
+
   }
 
   changeDeviceState(data,envelope){
@@ -120,6 +128,42 @@ class Hue extends BaseComponent {
           this.logger.error(error);
       });
   }
+
+    changeDeviceAttribute(data,envelope){
+        this.logger.debug('Recived message');
+        let device = this.home.getDevice(data.identity);
+        let id = device.getAttribute('id');
+        this.client.lights.getById(id).then((light) => {
+            this.logger.debug(`Found Light [${light.id}]: ${light.name}`);
+
+            for(let key of Object.keys(data.operations)) {
+                console.log('HUE CHANGE ATTRIBUTE TO ' + key + ' TO ' + data.operations[key]);
+                this.handleAttributeChange(key, data.operations[key],light);
+            }
+            return this.client.lights.save(light);
+        })
+        .then((light) => {
+            this.logger.debug('Updated light ');
+        })
+        .catch((error) => {
+            this.logger.error(error);
+        });
+    }
+
+    handleAttributeChange(attribute,value, light){
+        if(attribute == 'color'){
+            let [r,g,b] = _.split(value,',');
+            let [x,y] = rgb_to_cie(parseInt(r),parseInt(g),parseInt(b));
+            let xy = new Array();
+            xy.push(parseFloat(x));
+            xy.push(parseFloat(y));
+            light['xy'] = xy;
+
+        } else {
+            console.log('SET ' + attribute + ' TO ' + value);
+            light[attribute] = value;
+        }
+    }
 
 
   registerLights(client){
