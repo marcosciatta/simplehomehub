@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Header from './components/Header'
-import Main from './components/Main'
+import Main from './components/Main';
 
 class App extends Component {
 
@@ -10,6 +10,8 @@ class App extends Component {
       <div id="page_container">
         <Header />
         <Main />
+           APPLICATION PAGE
+          {this.props.children}
       </div>
     );
   }

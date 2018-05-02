@@ -13,11 +13,11 @@ export default class Home extends Component {
 
     render() {
         return <div className="row">
+            HOME!!!
             <div className="col-md-12 m-0 p-0">
                 <div className="d-block p-2 bg-light text-white text-right">
                 </div>
             </div>
-            <DeviceList/>
         </div>
     }
 }

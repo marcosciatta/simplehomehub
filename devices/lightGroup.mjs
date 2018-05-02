@@ -8,7 +8,6 @@ class LightGroup extends Light {
         this.type = 'lightgroup';
     }
 
-
 }
 
 export default LightGroup;

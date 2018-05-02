@@ -6,16 +6,22 @@ import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from "react-redux";
-import shhstore from "./store/index";
-import { createStore } from 'redux'
+import { loadComponents } from './actions/componentActions';
+import configureStore from "./store/index";
 
-const store = createStore(shhstore);
+
+//Init application ?
+const store = configureStore();
+store.dispatch(loadComponents());
 
 ReactDOM.render((
-  <Provider store={store}>
+  <Provider store={store }>
     <BrowserRouter>
       <App />
     </BrowserRouter>
   </Provider>
 ), document.getElementById('root'));
+
+console.log(store.getState());
+
 registerServiceWorker();

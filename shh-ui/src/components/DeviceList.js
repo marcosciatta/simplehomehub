@@ -7,17 +7,17 @@ class DeviceList extends Component
   };
 
   callApi = async () => {
-    const response = await fetch('http://localhost:3000/api/components');
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    console.log(body);
-    return body;
+    // const response = await fetch('http://localhost:3000/api/components');
+    // const body = await response.json();
+    // if (response.status !== 200) throw Error(body.message);
+    // console.log(body);
+    // return body;
   };
 
   componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
+    // this.callApi()
+    //   .then(res => this.setState({ response: res.express }))
+    //   .catch(err => console.log(err));
   }
 
   render(){
