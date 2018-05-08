@@ -3,15 +3,18 @@ import BaseComponent from '../../system/baseComponent';
 import ComponentRegistry from '../../system/componentRegistry';
 import Bridge from './utils/bridge';
 import LightTranslator from './utils/translator';
+import Comm from './utils/com';
+
 import _ from 'lodash';
 const realm = 'hue';
 const deviceType = 'shh1';
+
 import { rgb_to_cie } from './utils/rgbcie.mjs';
 
 
 class Hue extends BaseComponent {
 
-  constructor({messagebus,logger,componentRegistry,home,store}){
+  constructor({messagebus,logger,componentRegistry,home,store,identityProvider}){
     super(messagebus,home,store);
     this.logger = new logger('Hue');
     this.sync = {type: BaseComponent.syncNone, every: 4};
@@ -58,7 +61,7 @@ class Hue extends BaseComponent {
       this.logger.debug('Registring lights');
       this.registerListeners();
       this.registerLights(this.client);
-      this.registerGroups(this.client);
+     // this.registerGroups(this.client);
   }
 
 
@@ -117,53 +120,51 @@ class Hue extends BaseComponent {
       this.logger.debug('Recived message');
       let device = this.home.getDevice(data.identity);
       let id = device.getAttribute('id');
-      this.client.lights.getById(id).then((light) => {
-          this.logger.debug(`Found Light [${light.id}]: ${light.name}`);
-          light.on = (data.to == 'on');
-          return this.client.lights.save(light);
-      })
-      .then((light) => {
-          this.logger.debug('Updated light ');
-      })
-      .catch((error) => {
-          this.logger.error(error);
-      });
+
+      console.log('CHANGE DEVICE STATE!!!');
+        console.log(device.type);
+      if(device.type == 'light'){
+        Comm.changeLightState(this.client,id,data)
+            .then((light) => {
+                this.logger.debug('Updated light ');
+            })
+            .catch((error) => {
+                this.logger.error(error);
+            });
+      } else if(device.type == 'lightGroup'){
+          Comm.changeGroupState(this.client,id,data)
+              .then((group) => {
+                  this.logger.debug('Updated group ');
+              })
+              .catch((error) => {
+                  this.logger.error(error);
+              });
+      }
+
   }
 
     changeDeviceAttribute(data,envelope){
         this.logger.debug('Recived message');
         let device = this.home.getDevice(data.identity);
         let id = device.getAttribute('id');
-        this.client.lights.getById(id).then((light) => {
-            this.logger.debug(`Found Light [${light.id}]: ${light.name}`);
-
-            for(let key of Object.keys(data.operations)) {
-                console.log('HUE CHANGE ATTRIBUTE TO ' + key + ' TO ' + data.operations[key]);
-                this.handleAttributeChange(key, data.operations[key],light);
-            }
-            return this.client.lights.save(light);
-        })
-        .then((light) => {
-            this.logger.debug('Updated light ');
-        })
-        .catch((error) => {
-            this.logger.error(error);
-        });
-    }
-
-    handleAttributeChange(attribute,value, light){
-        if(attribute == 'color'){
-            let [r,g,b] = _.split(value,',');
-            let [x,y] = rgb_to_cie(parseInt(r),parseInt(g),parseInt(b));
-            let xy = new Array();
-            xy.push(parseFloat(x));
-            xy.push(parseFloat(y));
-            light['xy'] = xy;
-
-        } else {
-            console.log('SET ' + attribute + ' TO ' + value);
-            light[attribute] = value;
+        if(device.type == 'light'){
+            Comm.changeLightAttribute(this.client,id,data)
+                .then((light) => {
+                    this.logger.debug('Updated light ');
+                })
+                .catch((error) => {
+                    this.logger.error(error);
+                });
+        } else if(device.type == 'lightGroup'){
+            Comm.changeGroupAttribute(this.client,id,data)
+                .then((light) => {
+                    this.logger.debug('Updated group ');
+                })
+                .catch((error) => {
+                    this.logger.error(error);
+                });
         }
+
     }
 
 

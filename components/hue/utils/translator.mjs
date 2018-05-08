@@ -1,6 +1,7 @@
 import RgbLight from '../../../devices/rgblight.mjs';
 import DimmableLight from '../../../devices/dimmablelight.mjs';
 import LightGroup from '../../../devices/lightGroup.mjs';
+import IdentityProvider from '../../../system/utils/identityProvider';
 
 import { cie_to_rgb } from './rgbcie.mjs';
 
@@ -8,8 +9,9 @@ class LightTranslator {
 
     static hueLightToDevice(light,realm) {
 
-        let identity = light.uniqueId;
         let name = light.name;
+        let identity = IdentityProvider.provideIdentity('hue',light.uniqueId);
+
 
         if(light.type.toLowerCase() == 'extended color light')
             return this.rgbLight(identity,name,light,realm);
@@ -17,11 +19,15 @@ class LightTranslator {
         if(light.type.toLowerCase() == 'dimmable light'){
             return this.dimmableLight(identity,name,light,realm);
         }
-
     }
 
     static hueGroupToDevice(group,realm){
-        let identity = group.id;
+        let identity = '';
+
+        if(group.modelId !== undefined)
+            identity = IdentityProvider.provideIdentity('hue',group.uniqueId);
+        else
+            identity = IdentityProvider.provideIdentity('hue',group.id + '_'+group.type);
         let name = group.name;
 
         let color_state = {
@@ -58,7 +64,6 @@ class LightTranslator {
             attributes.color = cie_to_rgb(color_state.xy[0],color_state.xy[1],group.brightness);
         }
 
-
         let state = (group.on)  ? 'on' : 'off';
         let device =  new LightGroup(identity,name,realm,state,attributes,data);
         device.setComTypeAsync();
@@ -67,6 +72,7 @@ class LightTranslator {
     }
 
     static rgbLight(identity,name,light,realm){
+        console.log(light);
         let color_state = {
             brightness: light.brightness,
             colorMode: light.colorMode,
@@ -74,7 +80,7 @@ class LightTranslator {
             saturation: light.saturation,
             colorTemp: light.colorTemp,
             colorRgb: light.rgb,
-            xy: light.xy
+            xy: light.xy,
         };
 
         let data = {
@@ -83,8 +89,9 @@ class LightTranslator {
             model: light.model,
             software_version: light.softwareVersion,
             color_state: color_state,
-            type: light.type
-        };
+            type: light.type,
+            uniqueId: light.uniqueId
+    };
 
         let attributes = {
             id: light.id,
@@ -92,7 +99,8 @@ class LightTranslator {
             reachable: light.reachable,
             brightness: light.brightness,
             alert: light.alert,
-            effect: light.effect
+            effect: light.effect,
+            transitionTime: light.transitionTime
         };
         if(color_state.xy != undefined){
             attributes.color = cie_to_rgb(color_state.xy[0],color_state.xy[1],light.brightness);
@@ -112,7 +120,8 @@ class LightTranslator {
             modelId: light.modelId,
             model: light.model,
             software_version: light.softwareVersion,
-            type: light.type
+            type: light.type,
+            uniqueId: light.uniqueId
         };
 
         let attributes = {

@@ -397,15 +397,3 @@ va a recuperare le regole corrispondenti e lancia il process della regola.
 Quando l'engine trova le regole che sono candidate all'escuizone, esegue il metodo process dell'oggetto regola per controllare se questa matcha o meno con i dati in input del trigger definito nella regola stessa.
 Nel caso il match sia positivo , la classe **Rule** è in grado di gestire tutti i tipi di trigger disponibili.
 
-
-# MIGLIORIE
-- [ ] Un sistema decente che permetta di caricare i moduli delle applaiances dinamicamente. (qualcosa che carichi tutti i file della dir x ?)
-- [ ] Una soluzione che permetta in modo almeno funzionante e decente di far definire ai moduli applaiances dei servizi che è possibile usare nei trigger *e anche delle azioni che il modulo mette a disposizione su i suoi device*. di questa parte non sono molto sicuro.. è corretto che i plugin mettano a disposizione delle azioni o le azioni sui device devono ben essere definite a priori ?????
-- [ ] Rivedere il sistema di regole in toto. (o meglio la parte del match delle regole e la definizione dei trigger, result)
-- [ ] Implementare le condizioni delle regole
-- [ ] Interfaccia grafica generica
-- [ ] Un modo che permetta di salvare e recuperare le regole impostate al boot.
-- [ ] Un modo che permetta di aggiungere e o modificare attributi come nome icona dei device (con persistenza)
-- [ ] Definizione dei flussi da interfaccia.
-- [ ] Sistema di installazione dei plugin una volta registrati , questi infatti non vengon installati di default (per evitare lentezza al boot. Ma vanno pero' attivati da interfaccia. Un metodo install è appropiato ? Vedi il discovery del bridge hue o l'associazione dell'account broadlink.
-- [ ] Un modo carino per il discovery dei nuovi device da interfaccia all'aggiunta di un sistema domotico. Pull to refresh?

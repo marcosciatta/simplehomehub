@@ -121,7 +121,7 @@ class BaseDevice {
         name: this.name,
         state: this.getCurrentState(),
         attributes: attributes,
-        data: this.data,
+        data: this.data
     }
   }
 
